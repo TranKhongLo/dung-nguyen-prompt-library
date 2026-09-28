@@ -1,0 +1,2 @@
+const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{"content-type":"application/json; charset=UTF-8"}});
+export default {async fetch(request,env){const url=new URL(request.url);if(!url.pathname.startsWith('/api/')) return env.ASSETS.fetch(request);if(url.pathname==='/api/health') return json({ok:true,app:'DUNG NGUYEN PROMPTS'});if(url.pathname==='/api/prompts'&&request.method==='GET') return json({prompts:[],source:'d1-pending'});return json({error:'API route not found'},404);}};
