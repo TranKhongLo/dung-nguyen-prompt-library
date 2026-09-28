@@ -1,1 +1,1691 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Prompt · DUNG NGUYEN</title><link rel="stylesheet" href="/assets/styles.css"></head><body><header class="topbar"><a class="brand" href="/">DUNG NGUYEN <span>PROMPTS</span></a></header><main class="detail"><a href="/">← Quay lại</a><div id="detail" class="panel"></div></main><script>const id=new URLSearchParams(location.search).get('id');document.querySelector('#detail').innerHTML=id?`<p class="eyebrow">PROMPT</p><h1>Prompt #${id}</h1><p class="sub">Nội dung prompt sẽ được lấy từ D1 sau khi backend được kết nối.</p>`:`<h1>Không tìm thấy prompt</h1>`;</script></body></html>
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#090b10"
+  >
+
+  <meta
+    name="description"
+    content="Prompt AI · DUNG NGUYEN PROMPTS"
+  >
+
+  <title>Prompt · DUNG NGUYEN</title>
+
+  <link rel="stylesheet" href="/assets/styles.css">
+
+  <style>
+
+    /* =====================================================
+       PROMPT DETAIL PAGE
+    ===================================================== */
+
+    .detail-page {
+      max-width: 1050px;
+      margin: 0 auto;
+
+      padding:
+        28px 16px 80px;
+    }
+
+    .detail-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      margin-bottom: 18px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      min-height: 42px;
+
+      padding: 0 14px;
+
+      border: 1px solid #283144;
+      border-radius: 12px;
+
+      color: #e7eaf1;
+      background: #111722;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      transition:
+        border-color .18s ease,
+        background .18s ease;
+    }
+
+    .back-link:hover {
+      border-color: #4a5874;
+      background: #161d2a;
+    }
+
+    .share-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+
+      min-height: 42px;
+
+      padding: 0 14px;
+
+      border: 1px solid #283144;
+      border-radius: 12px;
+
+      color: #f4f6fb;
+      background: #111722;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+    .hero-card {
+      position: relative;
+
+      overflow: hidden;
+
+      padding: 28px 22px 25px;
+
+      border: 1px solid #293244;
+      border-radius: 24px;
+
+      background:
+        radial-gradient(
+          circle at 88% 0%,
+          rgba(124,140,255,.18),
+          transparent 32%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.025),
+          transparent
+        ),
+        #111621;
+
+      box-shadow:
+        0 28px 80px rgba(0,0,0,.28);
+    }
+
+    .hero-card::after {
+      content: "";
+
+      position: absolute;
+
+      inset: auto -100px -140px auto;
+
+      width: 280px;
+      height: 280px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(124,140,255,.08),
+          transparent 68%
+        );
+
+      pointer-events: none;
+    }
+
+    .eyebrow-detail {
+      margin: 0 0 11px;
+
+      color: #9ca8c1;
+
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .detail-title {
+      position: relative;
+      z-index: 1;
+
+      margin: 0;
+
+      max-width: 900px;
+
+      color: #f7f8fc;
+
+      font-size:
+        clamp(30px, 6vw, 56px);
+
+      line-height: 1.05;
+
+      letter-spacing: -.8px;
+    }
+
+    .detail-description {
+      position: relative;
+      z-index: 1;
+
+      max-width: 800px;
+
+      margin: 17px 0 0;
+
+      color: #abb4c6;
+
+      font-size:
+        clamp(14px, 2vw, 17px);
+
+      line-height: 1.65;
+    }
+
+    .detail-badges {
+      position: relative;
+      z-index: 1;
+
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      margin-top: 20px;
+    }
+
+    .detail-badge {
+      display: inline-flex;
+      align-items: center;
+
+      min-height: 31px;
+
+      padding: 0 11px;
+
+      border: 1px solid #2b3448;
+      border-radius: 999px;
+
+      color: #cdd4e1;
+      background: #0e131c;
+
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .detail-badge.featured {
+      color: #f7d994;
+      border-color: rgba(245,185,76,.23);
+      background: rgba(245,185,76,.08);
+    }
+
+    .detail-badge.category {
+      color: #b6c1ff;
+      border-color: rgba(124,140,255,.22);
+      background: rgba(124,140,255,.08);
+    }
+
+    .detail-stats {
+      position: relative;
+      z-index: 1;
+
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+
+      margin-top: 21px;
+
+      color: #7f899c;
+
+      font-size: 13px;
+    }
+
+    .detail-content-card {
+      margin-top: 18px;
+
+      overflow: hidden;
+
+      border: 1px solid #293244;
+      border-radius: 21px;
+
+      background: #111621;
+    }
+
+    .content-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      padding: 16px 17px;
+
+      border-bottom: 1px solid #222b3b;
+    }
+
+    .content-head-title {
+      margin: 0;
+
+      font-size: 17px;
+      font-weight: 850;
+    }
+
+    .copy-main {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      min-height: 42px;
+
+      padding: 0 14px;
+
+      border: 0;
+      border-radius: 11px;
+
+      color: #090b10;
+
+      background:
+        linear-gradient(
+          135deg,
+          #9ba6ff,
+          #7c8cff
+        );
+
+      font-size: 13px;
+      font-weight: 900;
+
+      cursor: pointer;
+    }
+
+    .copy-main.copied {
+      background: #3ddc97;
+    }
+
+    .prompt-content-wrap {
+      padding: 18px;
+    }
+
+    .prompt-content {
+      margin: 0;
+
+      white-space: pre-wrap;
+      word-break: break-word;
+
+      color: #e6eaf2;
+
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        "Liberation Mono",
+        monospace;
+
+      font-size: 13px;
+      line-height: 1.72;
+
+      overflow-wrap: anywhere;
+    }
+
+    .content-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+
+      padding: 0 18px 18px;
+    }
+
+    .secondary-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+
+      min-height: 42px;
+
+      padding: 0 13px;
+
+      border: 1px solid #293244;
+      border-radius: 11px;
+
+      color: #edf0f6;
+      background: #0e131c;
+
+      font-size: 13px;
+      font-weight: 750;
+
+      cursor: pointer;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(1, minmax(0, 1fr));
+
+      gap: 12px;
+
+      margin-top: 18px;
+    }
+
+    .info-card {
+      padding: 17px;
+
+      border: 1px solid #293244;
+      border-radius: 18px;
+
+      background: #111621;
+    }
+
+    .info-label {
+      color: #7d8799;
+
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .info-value {
+      margin-top: 7px;
+
+      color: #eef1f7;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      word-break: break-word;
+    }
+
+    .tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+
+      margin-top: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+
+      min-height: 27px;
+
+      padding: 0 9px;
+
+      border-radius: 999px;
+
+      color: #adb8ca;
+      background: #0d121a;
+      border: 1px solid #283143;
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .loading-card,
+    .error-card {
+      min-height: 420px;
+
+      display: grid;
+      place-items: center;
+
+      padding: 35px;
+
+      border: 1px solid #293244;
+      border-radius: 24px;
+
+      text-align: center;
+
+      background: #111621;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+
+      margin: 0 auto 15px;
+
+      border-radius: 50%;
+
+      border:
+        3px solid #293244;
+
+      border-top-color: #9ba6ff;
+
+      animation:
+        spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .error-icon {
+      width: 56px;
+      height: 56px;
+
+      display: grid;
+      place-items: center;
+
+      margin: 0 auto 15px;
+
+      border-radius: 16px;
+
+      color: #ffb4b4;
+
+      background:
+        rgba(255,98,98,.09);
+
+      border:
+        1px solid rgba(255,98,98,.16);
+
+      font-size: 25px;
+    }
+
+    .error-card h2 {
+      margin: 0;
+
+      font-size: 25px;
+    }
+
+    .error-card p {
+      max-width: 500px;
+
+      margin: 10px auto 20px;
+
+      color: #939daf;
+
+      line-height: 1.6;
+    }
+
+    .error-back {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 43px;
+
+      padding: 0 15px;
+
+      border-radius: 11px;
+
+      color: #090b10;
+
+      background: #fff;
+
+      font-weight: 850;
+    }
+
+    .toast-detail {
+      position: fixed;
+
+      left: 50%;
+      bottom: 20px;
+
+      z-index: 100;
+
+      transform:
+        translateX(-50%)
+        translateY(20px);
+
+      width:
+        min(430px, calc(100vw - 28px));
+
+      padding: 13px 15px;
+
+      border:
+        1px solid #2a354a;
+
+      border-radius: 12px;
+
+      color: #f1f4fa;
+
+      background: #161d29;
+
+      box-shadow:
+        0 22px 55px rgba(0,0,0,.38);
+
+      opacity: 0;
+      pointer-events: none;
+
+      transition:
+        opacity .2s ease,
+        transform .2s ease;
+    }
+
+    .toast-detail.show {
+      opacity: 1;
+
+      transform:
+        translateX(-50%)
+        translateY(0);
+    }
+
+    .toast-detail.success {
+      border-color:
+        rgba(61,220,151,.26);
+    }
+
+    .toast-detail.error {
+      border-color:
+        rgba(255,98,98,.28);
+    }
+
+    @media (min-width: 720px) {
+
+      .detail-page {
+        padding:
+          38px 28px 90px;
+      }
+
+      .hero-card {
+        padding:
+          38px 34px 34px;
+      }
+
+      .info-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+    }
+
+    @media (min-width: 1000px) {
+
+      .info-grid {
+        grid-template-columns:
+          repeat(4, minmax(0, 1fr));
+      }
+
+      .prompt-content-wrap {
+        padding: 24px;
+      }
+
+      .content-actions {
+        padding:
+          0 24px 24px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- =====================================================
+       HEADER
+  ===================================================== -->
+
+  <header class="topbar">
+
+    <a
+      class="brand"
+      href="/"
+    >
+      DUNG NGUYEN
+      <span>PROMPTS</span>
+    </a>
+
+    <a
+      class="back-link"
+      href="/"
+    >
+      ← Thư viện
+    </a>
+
+  </header>
+
+
+  <!-- =====================================================
+       MAIN
+  ===================================================== -->
+
+  <main class="detail-page">
+
+    <div
+      id="detailTop"
+      class="detail-top"
+    >
+      <a
+        class="back-link"
+        href="/"
+      >
+        ← Quay lại thư viện
+      </a>
+
+      <button
+        id="shareButton"
+        class="share-button"
+        type="button"
+      >
+        ↗ Chia sẻ
+      </button>
+    </div>
+
+
+    <!-- ===================================================
+         LOADING
+    =================================================== -->
+
+    <section
+      id="loadingState"
+      class="loading-card"
+    >
+
+      <div>
+
+        <div
+          class="loading-spinner"
+        ></div>
+
+        <div>
+          Đang tải prompt...
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         ERROR
+    =================================================== -->
+
+    <section
+      id="errorState"
+      class="error-card"
+      style="display:none"
+    >
+
+      <div>
+
+        <div
+          class="error-icon"
+        >
+          !
+        </div>
+
+        <h2>
+          Không tìm thấy prompt
+        </h2>
+
+        <p id="errorMessage">
+          Prompt này không tồn tại hoặc đã được gỡ khỏi thư viện.
+        </p>
+
+        <a
+          class="error-back"
+          href="/"
+        >
+          ← Về thư viện
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         DETAIL
+    =================================================== -->
+
+    <div
+      id="detailContent"
+      style="display:none"
+    >
+
+      <section class="hero-card">
+
+        <p
+          class="eyebrow-detail"
+          id="promptEyebrow"
+        >
+          AI PROMPT
+        </p>
+
+        <h1
+          class="detail-title"
+          id="promptTitle"
+        ></h1>
+
+        <p
+          class="detail-description"
+          id="promptDescription"
+        ></p>
+
+        <div
+          id="promptBadges"
+          class="detail-badges"
+        ></div>
+
+        <div
+          class="detail-stats"
+        >
+
+          <span id="viewsStat">
+            👁 0 lượt xem
+          </span>
+
+          <span id="copiesStat">
+            ⧉ 0 lượt sao chép
+          </span>
+
+          <span id="createdStat">
+            🗓 —
+          </span>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           CONTENT
+      ================================================= -->
+
+      <section
+        class="detail-content-card"
+      >
+
+        <div
+          class="content-head"
+        >
+
+          <h2
+            class="content-head-title"
+          >
+            Nội dung Prompt
+          </h2>
+
+          <button
+            id="copyMainButton"
+            class="copy-main"
+            type="button"
+          >
+            📋 Sao chép
+          </button>
+
+        </div>
+
+        <div
+          class="prompt-content-wrap"
+        >
+
+          <pre
+            id="promptContent"
+            class="prompt-content"
+          ></pre>
+
+        </div>
+
+        <div
+          class="content-actions"
+        >
+
+          <button
+            id="copySecondaryButton"
+            class="secondary-action"
+            type="button"
+          >
+            ⧉ Sao chép toàn bộ
+          </button>
+
+          <button
+            id="shareSecondaryButton"
+            class="secondary-action"
+            type="button"
+          >
+            ↗ Chia sẻ prompt
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           INFORMATION
+      ================================================= -->
+
+      <section
+        class="info-grid"
+      >
+
+        <div class="info-card">
+
+          <div class="info-label">
+            Danh mục
+          </div>
+
+          <div
+            class="info-value"
+            id="categoryValue"
+          >
+            —
+          </div>
+
+        </div>
+
+        <div class="info-card">
+
+          <div class="info-label">
+            Trạng thái
+          </div>
+
+          <div
+            class="info-value"
+            id="statusValue"
+          >
+            —
+          </div>
+
+        </div>
+
+        <div class="info-card">
+
+          <div class="info-label">
+            ID Prompt
+          </div>
+
+          <div
+            class="info-value"
+            id="idValue"
+          >
+            —
+          </div>
+
+        </div>
+
+        <div class="info-card">
+
+          <div class="info-label">
+            Tags
+          </div>
+
+          <div
+            id="tagsValue"
+            class="tags-wrap"
+          >
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- =====================================================
+       TOAST
+  ===================================================== -->
+
+  <div
+    id="toast"
+    class="toast-detail"
+  ></div>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ===================================================== -->
+
+  <script>
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const promptId =
+      params.get("id");
+
+    let currentPrompt = null;
+
+
+    /*
+     * DOM helpers
+     */
+
+    const $ = (selector) =>
+      document.querySelector(selector);
+
+
+    /*
+     * Elements
+     */
+
+    const loadingState =
+      $("#loadingState");
+
+    const errorState =
+      $("#errorState");
+
+    const detailContent =
+      $("#detailContent");
+
+    const errorMessage =
+      $("#errorMessage");
+
+    const promptTitle =
+      $("#promptTitle");
+
+    const promptDescription =
+      $("#promptDescription");
+
+    const promptBadges =
+      $("#promptBadges");
+
+    const promptContent =
+      $("#promptContent");
+
+    const viewsStat =
+      $("#viewsStat");
+
+    const copiesStat =
+      $("#copiesStat");
+
+    const createdStat =
+      $("#createdStat");
+
+    const categoryValue =
+      $("#categoryValue");
+
+    const statusValue =
+      $("#statusValue");
+
+    const idValue =
+      $("#idValue");
+
+    const tagsValue =
+      $("#tagsValue");
+
+    const copyMainButton =
+      $("#copyMainButton");
+
+    const copySecondaryButton =
+      $("#copySecondaryButton");
+
+    const shareButton =
+      $("#shareButton");
+
+    const shareSecondaryButton =
+      $("#shareSecondaryButton");
+
+    const toast =
+      $("#toast");
+
+
+    /*
+     * Toast
+     */
+
+    function showToast(
+      message,
+      type = "success"
+    ) {
+
+      toast.textContent =
+        message;
+
+      toast.className =
+        `toast-detail show ${type}`;
+
+      clearTimeout(
+        showToast.timer
+      );
+
+      showToast.timer =
+        setTimeout(
+          () => {
+
+            toast.className =
+              "toast-detail";
+
+          },
+          2600
+        );
+
+    }
+
+
+    /*
+     * Number
+     */
+
+    function number(
+      value
+    ) {
+
+      return Number(
+        value || 0
+      ).toLocaleString(
+        "vi-VN"
+      );
+
+    }
+
+
+    /*
+     * Date
+     */
+
+    function formatDate(
+      value
+    ) {
+
+      if (!value) {
+        return "—";
+      }
+
+      const date =
+        new Date(
+          value.replace(" ", "T")
+        );
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return value;
+
+      }
+
+      return date.toLocaleDateString(
+        "vi-VN",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+    /*
+     * Show error
+     */
+
+    function showError(
+      message
+    ) {
+
+      loadingState.style.display =
+        "none";
+
+      detailContent.style.display =
+        "none";
+
+      errorState.style.display =
+        "grid";
+
+      errorMessage.textContent =
+        message;
+
+    }
+
+
+    /*
+     * Show detail
+     */
+
+    function showDetail() {
+
+      loadingState.style.display =
+        "none";
+
+      errorState.style.display =
+        "none";
+
+      detailContent.style.display =
+        "block";
+
+    }
+
+
+    /*
+     * Load prompt
+     */
+
+    async function loadPrompt() {
+
+      if (!promptId) {
+
+        showError(
+          "Đường dẫn prompt không hợp lệ."
+        );
+
+        return;
+
+      }
+
+      try {
+
+        const response =
+          await fetch(
+            `/api/prompts/${encodeURIComponent(promptId)}`
+          );
+
+        const data =
+          await response.json();
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            "Không tìm thấy prompt."
+          );
+
+        }
+
+        if (!data.prompt) {
+
+          throw new Error(
+            "Không tìm thấy dữ liệu prompt."
+          );
+
+        }
+
+        currentPrompt =
+          data.prompt;
+
+        renderPrompt(
+          currentPrompt
+        );
+
+        showDetail();
+
+        /*
+         * Increase views after successful load.
+         * Do not block page rendering.
+         */
+
+        increaseView();
+
+      } catch (error) {
+
+        console.error(error);
+
+        showError(
+          error.message ||
+          "Không thể tải prompt."
+        );
+
+      }
+
+    }
+
+
+    /*
+     * Render prompt
+     */
+
+    function renderPrompt(
+      prompt
+    ) {
+
+      document.title =
+        `${prompt.title} · DUNG NGUYEN PROMPTS`;
+
+      promptTitle.textContent =
+        prompt.title || "";
+
+      promptDescription.textContent =
+        prompt.description || "";
+
+      promptContent.textContent =
+        prompt.content || "";
+
+      viewsStat.textContent =
+        `👁 ${number(prompt.views)} lượt xem`;
+
+      copiesStat.textContent =
+        `⧉ ${number(prompt.copies)} lượt sao chép`;
+
+      createdStat.textContent =
+        `🗓 ${formatDate(prompt.created_at)}`;
+
+      categoryValue.textContent =
+        prompt.category_name ||
+        "Chưa phân loại";
+
+      idValue.textContent =
+        `#${prompt.id}`;
+
+      statusValue.textContent =
+        Number(prompt.published) === 1
+          ? "🟢 Đang xuất bản"
+          : "🟡 Nháp";
+
+      promptBadges.innerHTML = "";
+
+      if (
+        prompt.category_name
+      ) {
+
+        const category =
+          document.createElement(
+            "span"
+          );
+
+        category.className =
+          "detail-badge category";
+
+        category.textContent =
+          `📁 ${prompt.category_name}`;
+
+        promptBadges.appendChild(
+          category
+        );
+
+      }
+
+      if (
+        Number(prompt.featured) === 1
+      ) {
+
+        const featured =
+          document.createElement(
+            "span"
+          );
+
+        featured.className =
+          "detail-badge featured";
+
+        featured.textContent =
+          "⭐ Featured";
+
+        promptBadges.appendChild(
+          featured
+        );
+
+      }
+
+      if (
+        Number(prompt.published) === 1
+      ) {
+
+        const published =
+          document.createElement(
+            "span"
+          );
+
+        published.className =
+          "detail-badge";
+
+        published.textContent =
+          "● Published";
+
+        promptBadges.appendChild(
+          published
+        );
+
+      }
+
+      tagsValue.innerHTML = "";
+
+      const tags =
+        String(
+          prompt.tags || ""
+        )
+          .split(",")
+          .map(
+            tag =>
+              tag.trim()
+          )
+          .filter(Boolean);
+
+      if (!tags.length) {
+
+        const empty =
+          document.createElement(
+            "span"
+          );
+
+        empty.textContent =
+          "Không có tags";
+
+        empty.style.color =
+          "#717b8d";
+
+        empty.style.fontSize =
+          "13px";
+
+        tagsValue.appendChild(
+          empty
+        );
+
+      } else {
+
+        tags.forEach(
+          (tag) => {
+
+            const element =
+              document.createElement(
+                "span"
+              );
+
+            element.className =
+              "tag";
+
+            element.textContent =
+              tag;
+
+            tagsValue.appendChild(
+              element
+            );
+
+          }
+        );
+
+      }
+
+    }
+
+
+    /*
+     * Increase view
+     */
+
+    async function increaseView() {
+
+      if (!promptId) {
+        return;
+      }
+
+      try {
+
+        await fetch(
+          `/api/prompts/${encodeURIComponent(promptId)}/view`,
+          {
+            method: "POST"
+          }
+        );
+
+        if (currentPrompt) {
+
+          currentPrompt.views =
+            Number(
+              currentPrompt.views || 0
+            ) + 1;
+
+          viewsStat.textContent =
+            `👁 ${number(
+              currentPrompt.views
+            )} lượt xem`;
+
+        }
+
+      } catch (error) {
+
+        console.warn(
+          "View counter failed:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /*
+     * Clipboard fallback
+     */
+
+    async function copyText(
+      text
+    ) {
+
+      if (!text) {
+
+        throw new Error(
+          "Prompt không có nội dung."
+        );
+
+      }
+
+      if (
+        navigator.clipboard &&
+        window.isSecureContext
+      ) {
+
+        await navigator.clipboard.writeText(
+          text
+        );
+
+        return;
+
+      }
+
+      const textarea =
+        document.createElement(
+          "textarea"
+        );
+
+      textarea.value =
+        text;
+
+      textarea.style.position =
+        "fixed";
+
+      textarea.style.opacity =
+        "0";
+
+      document.body.appendChild(
+        textarea
+      );
+
+      textarea.focus();
+      textarea.select();
+
+      const ok =
+        document.execCommand(
+          "copy"
+        );
+
+      textarea.remove();
+
+      if (!ok) {
+
+        throw new Error(
+          "Không thể sao chép trên thiết bị này."
+        );
+
+      }
+
+    }
+
+
+    /*
+     * Copy prompt
+     */
+
+    async function copyPrompt() {
+
+      if (!currentPrompt) {
+        return;
+      }
+
+      try {
+
+        await copyText(
+          currentPrompt.content
+        );
+
+        await fetch(
+          `/api/prompts/${encodeURIComponent(currentPrompt.id)}/copy`,
+          {
+            method: "POST"
+          }
+        );
+
+        currentPrompt.copies =
+          Number(
+            currentPrompt.copies || 0
+          ) + 1;
+
+        copiesStat.textContent =
+          `⧉ ${number(
+            currentPrompt.copies
+          )} lượt sao chép`;
+
+        copyMainButton.classList.add(
+          "copied"
+        );
+
+        copyMainButton.textContent =
+          "✓ Đã sao chép";
+
+        setTimeout(
+          () => {
+
+            copyMainButton.classList.remove(
+              "copied"
+            );
+
+            copyMainButton.textContent =
+              "📋 Sao chép";
+
+          },
+          1800
+        );
+
+        showToast(
+          "Đã sao chép toàn bộ prompt."
+        );
+
+      } catch (error) {
+
+        showToast(
+          error.message ||
+          "Không thể sao chép prompt.",
+          "error"
+        );
+
+      }
+
+    }
+
+
+    /*
+     * Share
+     */
+
+    async function sharePrompt() {
+
+      if (!currentPrompt) {
+        return;
+      }
+
+      const url =
+        window.location.href;
+
+      try {
+
+        if (
+          navigator.share
+        ) {
+
+          await navigator.share({
+
+            title:
+              currentPrompt.title,
+
+            text:
+              currentPrompt.description ||
+              "DUNG NGUYEN PROMPTS",
+
+            url
+
+          });
+
+          return;
+
+        }
+
+        await copyText(
+          url
+        );
+
+        showToast(
+          "Đã sao chép liên kết prompt."
+        );
+
+      } catch (error) {
+
+        /*
+         * Cancelled native sharing
+         * should not display an error.
+         */
+
+        if (
+          error &&
+          error.name ===
+            "AbortError"
+        ) {
+
+          return;
+
+        }
+
+        showToast(
+          "Không thể chia sẻ prompt.",
+          "error"
+        );
+
+      }
+
+    }
+
+
+    /*
+     * Events
+     */
+
+    copyMainButton.addEventListener(
+      "click",
+      copyPrompt
+    );
+
+    copySecondaryButton.addEventListener(
+      "click",
+      copyPrompt
+    );
+
+    shareButton.addEventListener(
+      "click",
+      sharePrompt
+    );
+
+    shareSecondaryButton.addEventListener(
+      "click",
+      sharePrompt
+    );
+
+
+    /*
+     * Start
+     */
+
+    loadPrompt();
+
+  </script>
+
+</body>
+</html>
