@@ -3,5 +3,17 @@
   "name": "dung-nguyen-prompts",
   "main": "src/index.js",
   "compatibility_date": "2026-09-25",
-  "assets": { "directory": "./public", "binding": "ASSETS" }
+
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dung-nguyen-prompt-db",
+      "database_id": "11984356-8c66-4bd4-bc4d-7aeba10478b7"
+    }
+  ]
 }
