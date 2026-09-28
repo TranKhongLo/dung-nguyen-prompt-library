@@ -1,1 +1,1483 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DUNG NGUYEN PROMPTS</title><link rel="stylesheet" href="/assets/styles.css"></head><body><header class="topbar"><a class="brand" href="/">DUNG NGUYEN <span>PROMPTS</span></a><a class="admin-link" href="/admin.html">Admin</a></header><main><section class="hero"><p class="eyebrow">AI PROMPT LIBRARY</p><h1>Kho Prompt của<br><span>DUNG NGUYEN</span></h1><p class="sub">Tìm kiếm, sao chép và sử dụng prompt AI nhanh chóng.</p><div class="search"><span>⌕</span><input id="search" placeholder="Tìm prompt, chủ đề, từ khóa..."></div></section><section class="section"><div class="section-head"><h2>Prompt mới nhất</h2><span id="count"></span></div><div id="grid" class="grid"></div></section></main><footer>DUNG NGUYEN · PROMPT LIBRARY</footer><script src="/assets/app.js"></script></body></html>
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#090b10"
+  >
+
+  <meta
+    name="description"
+    content="DUNG NGUYEN PROMPTS — Thư viện prompt AI"
+  >
+
+  <title>DUNG NGUYEN PROMPTS</title>
+
+  <style>
+    :root {
+      --bg: #090b10;
+      --panel: #111621;
+      --panel-2: #161d29;
+      --border: #293244;
+      --border-soft: #202838;
+
+      --text: #f5f7fb;
+      --muted: #9aa4b7;
+      --muted-2: #707b8f;
+
+      --primary: #8895ff;
+      --primary-2: #a2adff;
+      --green: #3ddc97;
+
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+
+      color: var(--text);
+
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(124,140,255,.15),
+          transparent 34%
+        ),
+        var(--bg);
+
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      min-height: 66px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 18px;
+
+      border-bottom:
+        1px solid rgba(255,255,255,.07);
+
+      background:
+        rgba(9,11,16,.85);
+
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: .4px;
+    }
+
+    .brand span {
+      color: #8c96a8;
+    }
+
+    .admin-link {
+      min-height: 40px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0 12px;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      color: #b4bdce;
+
+      background: #111722;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       LAYOUT
+    ========================= */
+
+    .page {
+      width: min(1280px, calc(100% - 28px));
+      margin: 0 auto;
+
+      padding:
+        34px 0 70px;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      padding:
+        50px 0 34px;
+
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+
+      color: #98a4bd;
+
+      font-size: 11px;
+      font-weight: 900;
+
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 0;
+
+      font-size:
+        clamp(38px, 7vw, 72px);
+
+      line-height: 1.02;
+
+      letter-spacing: -1.8px;
+    }
+
+    .hero h1 span {
+      background:
+        linear-gradient(
+          90deg,
+          #fff,
+          #8895ff
+        );
+
+      -webkit-background-clip:
+        text;
+
+      background-clip:
+        text;
+
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin: 18px auto 0;
+
+      color: var(--muted);
+
+      font-size:
+        clamp(14px, 2vw, 18px);
+
+      line-height: 1.6;
+    }
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    .search-wrap {
+      max-width: 860px;
+      margin: 24px auto 0;
+
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+
+      left: 17px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      color: #7d89a0;
+
+      font-size: 22px;
+    }
+
+    .search-input {
+      width: 100%;
+      min-height: 58px;
+
+      padding:
+        0 18px 0 48px;
+
+      border:
+        1px solid #303a4e;
+
+      border-radius: 17px;
+
+      outline: none;
+
+      color: var(--text);
+
+      background:
+        #111722;
+
+      font-size: 16px;
+
+      box-shadow:
+        0 15px 45px rgba(0,0,0,.18);
+
+      transition:
+        border-color .18s ease,
+        box-shadow .18s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+
+      box-shadow:
+        0 0 0 4px rgba(124,140,255,.10);
+    }
+
+    /* =========================
+       TOOLBAR
+    ========================= */
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 12px;
+
+      margin-top: 32px;
+      margin-bottom: 13px;
+    }
+
+    .section-title {
+      margin: 0;
+
+      font-size: 22px;
+      font-weight: 850;
+    }
+
+    .result-count {
+      color: var(--muted-2);
+      font-size: 13px;
+    }
+
+    /* =========================
+       PROMPT VIEWPORT
+    ========================= */
+
+    .prompt-viewport {
+      max-height: 760px;
+
+      overflow-y: auto;
+
+      padding: 3px;
+
+      scrollbar-width: thin;
+      scrollbar-color:
+        #46526b
+        #0d121a;
+    }
+
+    .prompt-viewport::-webkit-scrollbar {
+      width: 9px;
+    }
+
+    .prompt-viewport::-webkit-scrollbar-track {
+      background: #0d121a;
+      border-radius: 10px;
+    }
+
+    .prompt-viewport::-webkit-scrollbar-thumb {
+      background: #46526b;
+      border-radius: 10px;
+      border: 2px solid #0d121a;
+    }
+
+    .prompt-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: 15px;
+    }
+
+    /* =========================
+       CARD
+    ========================= */
+
+    .prompt-card {
+      min-height: 235px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      padding: 19px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        20px;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.018),
+          transparent
+        ),
+        var(--panel);
+
+      transition:
+        transform .18s ease,
+        border-color .18s ease,
+        box-shadow .18s ease;
+    }
+
+    .prompt-card:hover {
+      transform: translateY(-2px);
+
+      border-color:
+        #3c4962;
+
+      box-shadow:
+        0 18px 45px rgba(0,0,0,.22);
+    }
+
+    .card-category {
+      display: inline-flex;
+      align-items: center;
+
+      min-height: 26px;
+
+      padding: 0 9px;
+
+      width: fit-content;
+
+      border:
+        1px solid rgba(124,140,255,.22);
+
+      border-radius:
+        999px;
+
+      color:
+        #adb8ff;
+
+      background:
+        rgba(124,140,255,.07);
+
+      font-size:
+        10px;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .8px;
+
+      text-transform:
+        uppercase;
+    }
+
+    .card-title {
+      margin:
+        12px 0 0;
+
+      color:
+        #f4f6fb;
+
+      font-size:
+        18px;
+
+      line-height:
+        1.32;
+    }
+
+    .card-description {
+      margin:
+        11px 0 0;
+
+      color:
+        #a5afc0;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.58;
+    }
+
+    .card-bottom {
+      margin-top:
+        18px;
+    }
+
+    .card-meta {
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        13px;
+
+      color:
+        #727d91;
+
+      font-size:
+        11px;
+    }
+
+    .card-actions {
+      display:
+        flex;
+
+      gap:
+        7px;
+
+      margin-top:
+        13px;
+    }
+
+    .card-action {
+      min-height:
+        36px;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      gap:
+        6px;
+
+      padding:
+        0 10px;
+
+      border:
+        1px solid #293244;
+
+      border-radius:
+        10px;
+
+      color:
+        #edf0f7;
+
+      background:
+        #0d121a;
+
+      font-size:
+        11px;
+
+      font-weight:
+        750;
+
+      transition:
+        background .18s ease,
+        border-color .18s ease;
+    }
+
+    .card-action:hover {
+      background:
+        #171e2a;
+
+      border-color:
+        #42506a;
+    }
+
+    .card-action.primary {
+      flex: 1;
+
+      color:
+        #090b10;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary-2),
+          var(--primary)
+        );
+
+      border-color:
+        transparent;
+
+      font-weight:
+        850;
+    }
+
+    /* =========================
+       EMPTY
+    ========================= */
+
+    .empty {
+      padding:
+        55px 20px;
+
+      text-align:
+        center;
+
+      color:
+        var(--muted);
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        20px;
+
+      background:
+        var(--panel);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer {
+      margin-top:
+        42px;
+
+      padding:
+        35px 0 10px;
+
+      border-top:
+        1px solid var(--border-soft);
+    }
+
+    .footer-grid {
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap:
+        22px;
+    }
+
+    .footer-card h3 {
+      margin:
+        0 0 9px;
+
+      color:
+        #e6eaf2;
+
+      font-size:
+        14px;
+    }
+
+    .footer-card p {
+      margin: 0;
+
+      color:
+        #778297;
+
+      font-size:
+        12px;
+
+      line-height:
+        1.7;
+    }
+
+    .footer-link {
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      margin-top:
+        9px;
+
+      min-height:
+        36px;
+
+      padding:
+        0 11px;
+
+      border:
+        1px solid #2a3447;
+
+      border-radius:
+        9px;
+
+      color:
+        #b9c2ff;
+
+      background:
+        #0d121a;
+
+      font-size:
+        11px;
+
+      font-weight:
+        750;
+    }
+
+    .copyright {
+      margin-top:
+        28px;
+
+      padding-top:
+        20px;
+
+      border-top:
+        1px solid var(--border-soft);
+
+      text-align:
+        center;
+
+      color:
+        #687386;
+
+      font-size:
+        11px;
+
+      line-height:
+        1.7;
+    }
+
+    .copyright strong {
+      color:
+        #aeb8c9;
+    }
+
+    /* =========================
+       TOAST
+    ========================= */
+
+    .toast {
+      position:
+        fixed;
+
+      left:
+        50%;
+
+      bottom:
+        20px;
+
+      z-index:
+        100;
+
+      width:
+        min(420px, calc(100vw - 28px));
+
+      transform:
+        translate(-50%, 20px);
+
+      padding:
+        13px 15px;
+
+      border:
+        1px solid #2b3549;
+
+      border-radius:
+        12px;
+
+      color:
+        #f3f5fa;
+
+      background:
+        #171e2a;
+
+      box-shadow:
+        0 20px 55px rgba(0,0,0,.38);
+
+      opacity:
+        0;
+
+      pointer-events:
+        none;
+
+      transition:
+        opacity .2s ease,
+        transform .2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+
+      transform:
+        translate(-50%, 0);
+    }
+
+    .toast.success {
+      border-color:
+        rgba(61,220,151,.25);
+    }
+
+    .toast.error {
+      border-color:
+        rgba(255,98,98,.28);
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 980px) {
+
+      .prompt-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+    }
+
+    @media (max-width: 700px) {
+
+      .topbar {
+        padding:
+          0 12px;
+      }
+
+      .page {
+        width:
+          min(100% - 20px, 680px);
+
+        padding-bottom:
+          50px;
+      }
+
+      .hero {
+        padding:
+          34px 0 24px;
+      }
+
+      .prompt-viewport {
+        max-height:
+          700px;
+      }
+
+      .prompt-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+      .prompt-card {
+        min-height:
+          220px;
+      }
+
+      .footer-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+      .footer-card {
+        text-align:
+          center;
+      }
+
+      .footer-link {
+        justify-content:
+          center;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+  <a
+    class="brand"
+    href="/"
+  >
+    DUNG NGUYEN
+    <span>PROMPTS</span>
+  </a>
+
+  <a
+    class="admin-link"
+    href="/admin.html"
+  >
+    Admin
+  </a>
+
+</header>
+
+
+<main class="page">
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <p class="eyebrow">
+      AI PROMPT LIBRARY
+    </p>
+
+    <h1>
+      Kho Prompt của
+      <br>
+      <span>DUNG NGUYEN</span>
+    </h1>
+
+    <p>
+      Tìm kiếm, sao chép và sử dụng prompt AI
+      nhanh chóng cho ảnh, video, nội dung,
+      âm nhạc và nhiều workflow AI khác.
+    </p>
+
+    <div class="search-wrap">
+
+      <span class="search-icon">
+        ⌕
+      </span>
+
+      <input
+        id="searchInput"
+        class="search-input"
+        type="search"
+        placeholder="Tìm prompt, chủ đề, từ khóa..."
+        autocomplete="off"
+      >
+
+    </div>
+
+  </section>
+
+
+  <!-- LATEST -->
+
+  <section>
+
+    <div class="toolbar">
+
+      <h2 class="section-title">
+        Prompt mới nhất
+      </h2>
+
+      <span
+        id="resultCount"
+        class="result-count"
+      >
+        0 prompt
+      </span>
+
+    </div>
+
+
+    <!--
+      Vùng này hiển thị 9 nội dung đầu tiên.
+      Từ nội dung thứ 10 sẽ xuất hiện thanh cuộn.
+    -->
+
+    <div
+      id="promptViewport"
+      class="prompt-viewport"
+    >
+
+      <div
+        id="promptGrid"
+        class="prompt-grid"
+      ></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer class="footer">
+
+    <div class="footer-grid">
+
+      <section class="footer-card">
+
+        <h3>
+          Giới thiệu
+        </h3>
+
+        <p>
+          DUNG NGUYEN PROMPTS là thư viện lưu trữ,
+          quản lý và chia sẻ prompt AI được xây dựng
+          nhằm giúp người dùng tìm kiếm và sử dụng
+          prompt nhanh chóng, trực quan và tiện lợi.
+        </p>
+
+      </section>
+
+
+      <section class="footer-card">
+
+        <h3>
+          Liên hệ
+        </h3>
+
+        <p>
+          Cần trao đổi, góp ý hoặc đề xuất nội dung
+          cho thư viện? Hãy kết nối với DUNG NGUYEN
+          qua kênh liên hệ chính thức.
+        </p>
+
+        <!--
+          Thay href="#" bằng đường dẫn Facebook
+          hoặc kênh liên hệ chính thức của bạn.
+        -->
+
+        <a
+          class="footer-link"
+          href="#"
+          onclick="return false"
+        >
+          ↗ Kênh liên hệ
+        </a>
+
+      </section>
+
+
+      <section class="footer-card">
+
+        <h3>
+          Thư viện Prompt
+        </h3>
+
+        <p>
+          Prompt được tổ chức theo danh mục,
+          hỗ trợ tìm kiếm nhanh, xem nội dung,
+          sao chép và chia sẻ đường dẫn.
+        </p>
+
+      </section>
+
+    </div>
+
+
+    <div class="copyright">
+
+      <strong>
+        DUNG NGUYEN PROMPTS
+      </strong>
+
+      <br>
+
+      © 2026 DUNG NGUYEN PROMPTS.
+      Bản quyền ứng dụng, giao diện và hệ thống
+      thuộc về chủ sở hữu ứng dụng.
+
+      <br>
+
+      Thiết kế và phát triển cho hệ sinh thái
+      Prompt AI của DUNG NGUYEN.
+
+    </div>
+
+  </footer>
+
+</main>
+
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+<script>
+
+  const state = {
+    prompts: []
+  };
+
+  const $ =
+    (selector) =>
+      document.querySelector(selector);
+
+
+  /* =========================
+     TOAST
+  ========================= */
+
+  function showToast(
+    message,
+    type = "success"
+  ) {
+
+    const toast =
+      $("#toast");
+
+    toast.textContent =
+      message;
+
+    toast.className =
+      `toast show ${type}`;
+
+    clearTimeout(
+      showToast.timer
+    );
+
+    showToast.timer =
+      setTimeout(
+        () => {
+          toast.className =
+            "toast";
+        },
+        2400
+      );
+
+  }
+
+
+  /* =========================
+     NUMBER
+  ========================= */
+
+  function formatNumber(
+    value
+  ) {
+
+    return Number(
+      value || 0
+    ).toLocaleString(
+      "vi-VN"
+    );
+
+  }
+
+
+  /* =========================
+     ESCAPE
+  ========================= */
+
+  function escapeHtml(
+    value
+  ) {
+
+    return String(
+      value ?? ""
+    )
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  }
+
+
+  /* =========================
+     COPY LINK
+  ========================= */
+
+  async function copyLink(
+    id
+  ) {
+
+    const url =
+      new URL(
+        `/prompt.html?id=${encodeURIComponent(id)}`,
+        window.location.origin
+      ).href;
+
+    try {
+
+      if (
+        navigator.clipboard &&
+        window.isSecureContext
+      ) {
+
+        await navigator.clipboard.writeText(
+          url
+        );
+
+      } else {
+
+        const textarea =
+          document.createElement(
+            "textarea"
+          );
+
+        textarea.value =
+          url;
+
+        textarea.style.position =
+          "fixed";
+
+        textarea.style.left =
+          "-9999px";
+
+        document.body.appendChild(
+          textarea
+        );
+
+        textarea.select();
+
+        document.execCommand(
+          "copy"
+        );
+
+        textarea.remove();
+
+      }
+
+      showToast(
+        "Đã sao chép link prompt."
+      );
+
+    } catch {
+
+      showToast(
+        "Không thể sao chép link.",
+        "error"
+      );
+
+    }
+
+  }
+
+
+  /* =========================
+     RENDER
+  ========================= */
+
+  function render() {
+
+    const query =
+      $("#searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const filtered =
+      state.prompts.filter(
+        (prompt) => {
+
+          const text =
+            [
+              prompt.title,
+              prompt.description,
+              prompt.content,
+              prompt.tags,
+              prompt.category_name
+            ]
+              .join(" ")
+              .toLowerCase();
+
+          return (
+            !query ||
+            text.includes(query)
+          );
+
+        }
+      );
+
+    $("#resultCount")
+      .textContent =
+      `${formatNumber(
+        filtered.length
+      )} prompt`;
+
+
+    const grid =
+      $("#promptGrid");
+
+    if (!filtered.length) {
+
+      grid.innerHTML = `
+        <div
+          class="empty"
+          style="grid-column:1/-1"
+        >
+          Không tìm thấy prompt phù hợp.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    grid.innerHTML =
+      filtered.map(
+        (prompt) => {
+
+          return `
+            <article
+              class="prompt-card"
+            >
+
+              <div>
+
+                <span
+                  class="card-category"
+                >
+                  ${escapeHtml(
+                    prompt.category_name ||
+                    "PROMPT"
+                  )}
+                </span>
+
+                <h3
+                  class="card-title"
+                >
+                  ${escapeHtml(
+                    prompt.title
+                  )}
+                </h3>
+
+                <p
+                  class="card-description"
+                >
+                  ${escapeHtml(
+                    prompt.description ||
+                    ""
+                  )}
+                </p>
+
+              </div>
+
+
+              <div class="card-bottom">
+
+                <div
+                  class="card-meta"
+                >
+
+                  <span>
+                    👁 ${formatNumber(
+                      prompt.views
+                    )}
+                  </span>
+
+                  <span>
+                    ⧉ ${formatNumber(
+                      prompt.copies
+                    )}
+                  </span>
+
+                  ${
+                    Number(
+                      prompt.featured
+                    ) === 1
+                      ? `
+                        <span>
+                          ⭐ Featured
+                        </span>
+                      `
+                      : ""
+                  }
+
+                </div>
+
+
+                <div
+                  class="card-actions"
+                >
+
+                  <a
+                    class="card-action primary"
+                    href="/prompt.html?id=${encodeURIComponent(prompt.id)}"
+                  >
+                    Xem nội dung
+                  </a>
+
+                  <button
+                    class="card-action"
+                    type="button"
+                    data-copy-link="${prompt.id}"
+                  >
+                    📎 Copy link
+                  </button>
+
+                </div>
+
+              </div>
+
+            </article>
+          `;
+
+        }
+      ).join("");
+
+  }
+
+
+  /* =========================
+     CLICK
+  ========================= */
+
+  $("#promptGrid")
+    .addEventListener(
+      "click",
+      async (event) => {
+
+        const button =
+          event.target.closest(
+            "[data-copy-link]"
+          );
+
+        if (!button) {
+          return;
+        }
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+        await copyLink(
+          button.dataset.copyLink
+        );
+
+      }
+    );
+
+
+  /* =========================
+     LOAD
+  ========================= */
+
+  async function loadPrompts() {
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/prompts",
+          {
+            cache: "no-store"
+          }
+        );
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error ||
+          "Không thể tải prompt."
+        );
+
+      }
+
+      state.prompts =
+        Array.isArray(
+          data.prompts
+        )
+          ? data.prompts
+          : [];
+
+
+      /*
+       * Luôn xếp mới nhất lên đầu.
+       */
+
+      state.prompts.sort(
+        (a, b) => {
+
+          const da =
+            new Date(
+              String(
+                a.created_at || ""
+              ).replace(" ", "T")
+            ).getTime();
+
+          const db =
+            new Date(
+              String(
+                b.created_at || ""
+              ).replace(" ", "T")
+            ).getTime();
+
+          return db - da;
+
+        }
+      );
+
+
+      render();
+
+    } catch (error) {
+
+      $("#promptGrid").innerHTML = `
+        <div
+          class="empty"
+          style="grid-column:1/-1"
+        >
+          Không thể tải dữ liệu prompt.
+          <br><br>
+          ${escapeHtml(
+            error.message
+          )}
+        </div>
+      `;
+
+    }
+
+  }
+
+
+  /* =========================
+     SEARCH
+  ========================= */
+
+  $("#searchInput")
+    .addEventListener(
+      "input",
+      render
+    );
+
+
+  /* =========================
+     START
+  ========================= */
+
+  loadPrompts();
+
+</script>
+
+</body>
+</html>
