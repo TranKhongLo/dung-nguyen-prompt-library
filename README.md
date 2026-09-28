@@ -6,3 +6,4 @@ Cloudflare Workers + Static Assets + D1.
 - `wrangler.jsonc` — cấu hình Cloudflare
 
 D1 database, admin authentication, CRUD prompts và thống kê sẽ được cấu hình ở bước tiếp theo.
+Cloudflare Workers Builds connected.
