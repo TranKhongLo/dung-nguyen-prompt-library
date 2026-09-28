@@ -144,7 +144,10 @@ async function getPrompts(env, url, admin = false) {
   const q = (url.searchParams.get("q") || "").trim();
   const category = (url.searchParams.get("category") || "").trim();
   const featured = url.searchParams.get("featured");
-  const limit = Math.min(Math.max(Number(url.searchParams.get("limit") || 200), 1), 500);
+  const requestedLimit = Number(url.searchParams.get("limit") || 200);
+  const limit = Number.isFinite(requestedLimit)
+    ? Math.min(Math.max(Math.floor(requestedLimit), 1), 500)
+    : 200;
 
   let sql = `
     SELECT
@@ -206,21 +209,90 @@ async function findPrompt(env, key) {
 }
 
 async function renderPromptHtml(env, request, prompt) {
-  const asset = await env.ASSETS.fetch(new Request(new URL("/prompt.html", request.url), request));
-  let body = await asset.text();
-  const title = escapeHtml(`${prompt.title} · DUNG NGUYEN PROMPTS`);
-  const description = escapeHtml(prompt.description || "DUNG NGUYEN PROMPTS — Thư viện prompt AI");
-  const canonical = new URL(`/prompt/${encodeURIComponent(prompt.slug)}`, request.url).href;
-  const image = new URL("/icons/og-shareprompt.png", request.url).href;
+  try {
+    const assetUrl = new URL("/prompt.html", request.url);
+    const assetRequest = new Request(assetUrl.toString(), {
+      method: "GET",
+      headers: request.headers
+    });
 
-  body = body
-    .replaceAll("__PROMPT_TITLE__", title)
-    .replaceAll("__PROMPT_DESCRIPTION__", description)
-    .replaceAll("__PROMPT_CANONICAL__", escapeHtml(canonical))
-    .replaceAll("__PROMPT_OG_IMAGE__", escapeHtml(image))
-    .replaceAll("__PROMPT_SLUG__", escapeHtml(prompt.slug));
+    const asset = await env.ASSETS.fetch(assetRequest);
 
-  return html(body);
+    if (!asset.ok) {
+      return new Response(
+        "Không thể tải giao diện prompt.",
+        {
+          status: 500,
+          headers: {
+            "content-type": "text/plain; charset=UTF-8",
+            "cache-control": "no-store"
+          }
+        }
+      );
+    }
+
+    let body = await asset.text();
+
+    const title = escapeHtml(
+      `${prompt.title} · DUNG NGUYEN PROMPTS`
+    );
+
+    const description = escapeHtml(
+      prompt.description ||
+      "DUNG NGUYEN PROMPTS — Thư viện prompt AI"
+    );
+
+    const canonical = new URL(
+      `/prompt/${encodeURIComponent(prompt.slug)}`,
+      request.url
+    ).href;
+
+    const image = new URL(
+      "/icons/og-shareprompt.png",
+      request.url
+    ).href;
+
+    body = body
+      .replaceAll(
+        "__PROMPT_TITLE__",
+        title
+      )
+      .replaceAll(
+        "__PROMPT_DESCRIPTION__",
+        description
+      )
+      .replaceAll(
+        "__PROMPT_CANONICAL__",
+        escapeHtml(canonical)
+      )
+      .replaceAll(
+        "__PROMPT_OG_IMAGE__",
+        escapeHtml(image)
+      )
+      .replaceAll(
+        "__PROMPT_SLUG__",
+        escapeHtml(prompt.slug)
+      );
+
+    return new Response(body, {
+      status: 200,
+      headers: {
+        "content-type": "text/html; charset=UTF-8",
+        "cache-control": "no-store"
+      }
+    });
+  } catch (error) {
+    return new Response(
+      `Không thể mở prompt: ${error?.message || "Unknown error"}`,
+      {
+        status: 500,
+        headers: {
+          "content-type": "text/plain; charset=UTF-8",
+          "cache-control": "no-store"
+        }
+      }
+    );
+  }
 }
 
 async function renderSitemap(env, request) {
@@ -301,7 +373,7 @@ export default {
       return renderSitemap(env, request);
     }
 
-    const cleanPrompt = path.match(/^\/prompt\/([^/]+)$/);
+    const cleanPrompt = path.match(/^\/prompt\/([^/]+)\/?$/);
     if (cleanPrompt && method === "GET") {
       const prompt = await findPrompt(env, decodeURIComponent(cleanPrompt[1]));
       if (!prompt) return env.ASSETS.fetch(request);
@@ -458,7 +530,12 @@ export default {
         const title = String(body?.title || "").trim();
         const content = String(body?.content || "").trim();
         if (!title || !content) return json({ error: "Tiêu đề và nội dung là bắt buộc" }, 400);
-        const slug = await uniqueSlug(env, title, id);
+        const existing = await env.DB.prepare(`
+          SELECT slug FROM prompts WHERE id = ? LIMIT 1
+        `).bind(id).first();
+
+        const slug = existing?.slug || await uniqueSlug(env, title, id);
+
         await env.DB.prepare(`
           UPDATE prompts
           SET title = ?, slug = ?, description = ?, content = ?, category_id = ?, tags = ?,
@@ -475,6 +552,7 @@ export default {
           body?.published === false ? 0 : 1,
           id
         ).run();
+
         return json({ ok: true, slug });
       } catch (error) {
         return json({ error: "Không thể cập nhật prompt", detail: error.message }, 500);
