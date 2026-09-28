@@ -1,1 +1,2500 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin · DUNG NGUYEN PROMPTS</title><link rel="stylesheet" href="/assets/styles.css"></head><body><header class="topbar"><a class="brand" href="/">DUNG NGUYEN <span>PROMPTS</span></a></header><main class="admin-page"><section class="panel"><p class="eyebrow">ADMIN</p><h1>Quản lý Prompt</h1><p class="sub">Khu vực quản trị riêng. Bảo mật đăng nhập sẽ được kết nối ở bước tiếp theo.</p><div class="notice">Giao diện đã sẵn sàng. API + D1 + đăng nhập Admin sẽ được cấu hình ở bước tiếp theo.</div><a class="button" href="/">← Về thư viện</a></section></main></body></html>
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+  <title>Admin · DUNG NGUYEN PROMPTS</title>
+
+  <meta name="theme-color" content="#090b10">
+
+  <style>
+    :root {
+      --bg: #090b10;
+      --bg-soft: #0e1118;
+      --panel: #121722;
+      --panel-2: #171d29;
+      --border: #273043;
+      --border-soft: #202838;
+
+      --text: #f6f8fc;
+      --muted: #909bad;
+      --muted-2: #687386;
+
+      --primary: #7c8cff;
+      --primary-2: #9ba6ff;
+
+      --danger: #ff6262;
+      --success: #3ddc97;
+      --warning: #f5b94c;
+
+      --radius: 18px;
+      --radius-sm: 12px;
+
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(112, 127, 255, .18),
+          transparent 34%
+        ),
+        var(--bg);
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
+       APP HEADER
+    ========================= */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      min-height: 64px;
+      padding:
+        0 16px;
+
+      border-bottom: 1px solid rgba(255,255,255,.07);
+
+      background: rgba(9,11,16,.82);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: .5px;
+    }
+
+    .brand span {
+      color: var(--muted);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .btn {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+
+      min-height: 42px;
+      padding: 0 14px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      color: var(--text);
+      background: var(--panel);
+
+      transition:
+        border-color .18s ease,
+        background .18s ease,
+        transform .18s ease;
+    }
+
+    .btn:hover {
+      border-color: #3c4962;
+      background: var(--panel-2);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn.primary {
+      border-color: transparent;
+      background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-2)
+      );
+      color: #090b10;
+      font-weight: 800;
+    }
+
+    .btn.danger {
+      color: #fff;
+      border-color: rgba(255,98,98,.22);
+      background: rgba(255,98,98,.10);
+    }
+
+    .btn.success {
+      color: #03120c;
+      border-color: transparent;
+      background: var(--success);
+      font-weight: 800;
+    }
+
+    .btn.small {
+      min-height: 36px;
+      padding: 0 11px;
+      border-radius: 10px;
+      font-size: 13px;
+    }
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    .login-page {
+      min-height: calc(100vh - 64px);
+
+      display: grid;
+      place-items: center;
+
+      padding: 24px 16px 60px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 450px;
+
+      padding: 28px;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.025),
+          transparent
+        ),
+        var(--panel);
+
+      border: 1px solid var(--border);
+      border-radius: 24px;
+
+      box-shadow:
+        0 30px 80px rgba(0,0,0,.38);
+    }
+
+    .login-logo {
+      width: 54px;
+      height: 54px;
+
+      display: grid;
+      place-items: center;
+
+      margin-bottom: 20px;
+
+      border-radius: 16px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-2)
+        );
+
+      color: #090b10;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+
+      color: var(--primary-2);
+
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .login-card h1 {
+      margin: 0;
+
+      font-size: clamp(30px, 7vw, 42px);
+      line-height: 1.03;
+    }
+
+    .login-card p {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .field {
+      margin-top: 16px;
+    }
+
+    .field label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: #d6dbe5;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+
+      border: 1px solid var(--border);
+      border-radius: 12px;
+
+      padding: 13px 14px;
+
+      color: var(--text);
+      background: #0c1017;
+
+      outline: none;
+
+      transition:
+        border-color .18s ease,
+        box-shadow .18s ease;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--primary);
+      box-shadow:
+        0 0 0 3px rgba(124,140,255,.12);
+    }
+
+    .login-button {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .message {
+      margin-top: 14px;
+
+      padding: 12px 13px;
+
+      border-radius: 12px;
+
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .message.error {
+      color: #ffd2d2;
+      background: rgba(255,98,98,.09);
+      border: 1px solid rgba(255,98,98,.18);
+    }
+
+    .message.success {
+      color: #caffdf;
+      background: rgba(61,220,151,.08);
+      border: 1px solid rgba(61,220,151,.18);
+    }
+
+    /* =========================
+       DASHBOARD
+    ========================= */
+
+    .dashboard {
+      max-width: 1450px;
+      margin: 0 auto;
+
+      padding: 24px 16px 70px;
+    }
+
+    .dashboard-head {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+
+      margin-bottom: 24px;
+    }
+
+    .dashboard-head h1 {
+      margin: 0;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.05;
+    }
+
+    .dashboard-head p {
+      margin: 9px 0 0;
+      color: var(--muted);
+    }
+
+    .head-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 12px;
+
+      margin-bottom: 24px;
+    }
+
+    .stat {
+      padding: 18px;
+
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+
+      box-shadow:
+        0 18px 45px rgba(0,0,0,.14);
+    }
+
+    .stat-label {
+      color: var(--muted);
+
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      margin-top: 7px;
+
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .stat-extra {
+      margin-top: 5px;
+
+      color: var(--muted-2);
+      font-size: 11px;
+    }
+
+    /* =========================
+       TOOLBAR
+    ========================= */
+
+    .toolbar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      margin-bottom: 14px;
+
+      padding: 13px;
+
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-wrap span {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      color: var(--muted-2);
+    }
+
+    .search-wrap input {
+      width: 100%;
+
+      min-height: 44px;
+
+      padding:
+        0 14px 0 39px;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      color: var(--text);
+      background: #0c1017;
+
+      outline: none;
+    }
+
+    .toolbar select {
+      min-height: 44px;
+
+      border: 1px solid var(--border);
+      border-radius: 11px;
+
+      padding: 0 13px;
+
+      color: var(--text);
+      background: #0c1017;
+      outline: none;
+    }
+
+    /* =========================
+       PROMPT AREA
+    ========================= */
+
+    .prompt-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 17px 16px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .panel-head span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .prompt-list {
+      display: grid;
+    }
+
+    .prompt-card {
+      padding: 17px 16px;
+
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .prompt-card:last-child {
+      border-bottom: 0;
+    }
+
+    .prompt-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .prompt-title {
+      margin: 0;
+
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .prompt-slug {
+      margin-top: 5px;
+
+      color: var(--muted-2);
+      font-size: 11px;
+      word-break: break-all;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+
+      margin-top: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+
+      min-height: 26px;
+      padding: 0 9px;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+
+      color: #c3c9d6;
+      background: #0d121a;
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge.featured {
+      color: #f6d88e;
+      border-color: rgba(245,185,76,.22);
+      background: rgba(245,185,76,.08);
+    }
+
+    .badge.published {
+      color: #bdf7d8;
+      border-color: rgba(61,220,151,.18);
+      background: rgba(61,220,151,.07);
+    }
+
+    .badge.draft {
+      color: #f2cb9c;
+      border-color: rgba(245,185,76,.18);
+      background: rgba(245,185,76,.07);
+    }
+
+    .prompt-description {
+      margin: 12px 0 0;
+
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .prompt-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      margin-top: 13px;
+
+      color: var(--muted-2);
+      font-size: 11px;
+    }
+
+    .prompt-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+
+      margin-top: 14px;
+    }
+
+    .empty {
+      padding: 42px 20px;
+
+      text-align: center;
+      color: var(--muted);
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    dialog {
+      width: min(860px, calc(100vw - 20px));
+      max-height: calc(100vh - 20px);
+
+      padding: 0;
+
+      color: var(--text);
+
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+
+      box-shadow:
+        0 40px 120px rgba(0,0,0,.6);
+    }
+
+    dialog::backdrop {
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 16px 18px;
+
+      background: rgba(18,23,34,.94);
+      backdrop-filter: blur(10px);
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-head h2 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+
+      border: 1px solid var(--border);
+      border-radius: 10px;
+
+      color: var(--text);
+      background: #0d121a;
+
+      font-size: 19px;
+    }
+
+    .modal-body {
+      padding: 18px;
+    }
+
+    .modal-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .modal-footer {
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
+
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+
+      padding: 14px 18px;
+
+      background: rgba(18,23,34,.94);
+      backdrop-filter: blur(10px);
+
+      border-top: 1px solid var(--border);
+    }
+
+    textarea.content-box {
+      min-height: 260px;
+      resize: vertical;
+
+      line-height: 1.55;
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size: 13px;
+    }
+
+    .two-col {
+      display: grid;
+      gap: 14px;
+    }
+
+    .switch-row {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .check-card {
+      min-height: 48px;
+
+      display: flex;
+      align-items: center;
+      gap: 9px;
+
+      padding: 0 12px;
+
+      border: 1px solid var(--border);
+      border-radius: 12px;
+
+      background: #0c1017;
+    }
+
+    .check-card input {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* =========================
+       TOAST
+    ========================= */
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      z-index: 100;
+
+      transform:
+        translateX(-50%)
+        translateY(20px);
+
+      width: min(420px, calc(100vw - 28px));
+
+      padding: 13px 15px;
+
+      border: 1px solid var(--border);
+      border-radius: 13px;
+
+      color: var(--text);
+      background: #151b27;
+
+      box-shadow:
+        0 20px 55px rgba(0,0,0,.35);
+
+      opacity: 0;
+      pointer-events: none;
+
+      transition:
+        opacity .2s ease,
+        transform .2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform:
+        translateX(-50%)
+        translateY(0);
+    }
+
+    .toast.error {
+      border-color: rgba(255,98,98,.25);
+    }
+
+    .toast.success {
+      border-color: rgba(61,220,151,.25);
+    }
+
+    /* =========================
+       DESKTOP
+    ========================= */
+
+    @media (min-width: 720px) {
+
+      .topbar {
+        padding: 0 28px;
+      }
+
+      .dashboard {
+        padding:
+          34px 28px 80px;
+      }
+
+      .dashboard-head {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+
+      .stats {
+        grid-template-columns:
+          repeat(4, minmax(0, 1fr));
+      }
+
+      .toolbar {
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .toolbar select {
+        min-width: 200px;
+      }
+
+      .prompt-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .prompt-actions {
+        margin-top: 0;
+        justify-content: flex-end;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+
+    }
+
+    @media (min-width: 980px) {
+
+      .prompt-list {
+        gap: 0;
+      }
+
+      .prompt-card {
+        padding:
+          19px 22px;
+      }
+
+      .login-card {
+        padding: 34px;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       TOPBAR
+  ========================= -->
+
+  <header class="topbar">
+
+    <a class="brand" href="/">
+      DUNG NGUYEN <span>PROMPTS</span>
+    </a>
+
+    <div class="top-actions">
+
+      <a
+        class="btn small"
+        href="/"
+      >
+        ← Thư viện
+      </a>
+
+      <button
+        id="logoutButton"
+        class="btn small danger hidden"
+        type="button"
+      >
+        Đăng xuất
+      </button>
+
+    </div>
+
+  </header>
+
+  <!-- =========================
+       LOGIN PAGE
+  ========================= -->
+
+  <section
+    id="loginPage"
+    class="login-page"
+  >
+
+    <div class="login-card">
+
+      <div class="login-logo">
+        DN
+      </div>
+
+      <p class="eyebrow">
+        ADMIN PANEL
+      </p>
+
+      <h1>
+        Quản lý Prompt
+      </h1>
+
+      <p>
+        Đăng nhập để quản lý toàn bộ thư viện prompt
+        của DUNG NGUYEN.
+      </p>
+
+      <form id="loginForm">
+
+        <div class="field">
+
+          <label for="password">
+            Mật khẩu Admin
+          </label>
+
+          <input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Nhập mật khẩu Admin..."
+            required
+          >
+
+        </div>
+
+        <button
+          class="btn primary login-button"
+          type="submit"
+        >
+          🔐 Đăng nhập Admin
+        </button>
+
+      </form>
+
+      <div
+        id="loginMessage"
+        class="hidden"
+      ></div>
+
+    </div>
+
+  </section>
+
+  <!-- =========================
+       DASHBOARD
+  ========================= -->
+
+  <main
+    id="dashboard"
+    class="dashboard hidden"
+  >
+
+    <section class="dashboard-head">
+
+      <div>
+
+        <p class="eyebrow">
+          CONTROL CENTER
+        </p>
+
+        <h1>
+          Dashboard
+        </h1>
+
+        <p>
+          Quản lý prompt, nội dung và thống kê
+          trong một nơi.
+        </p>
+
+      </div>
+
+      <div class="head-actions">
+
+        <button
+          id="refreshButton"
+          class="btn"
+          type="button"
+        >
+          ↻ Làm mới
+        </button>
+
+        <button
+          id="addPromptButton"
+          class="btn primary"
+          type="button"
+        >
+          ＋ Thêm Prompt
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+      <div class="stat">
+        <div class="stat-label">
+          Tổng Prompt
+        </div>
+
+        <div
+          id="statPrompts"
+          class="stat-value"
+        >
+          0
+        </div>
+
+        <div class="stat-extra">
+          Toàn bộ dữ liệu
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">
+          Đang xuất bản
+        </div>
+
+        <div
+          id="statPublished"
+          class="stat-value"
+        >
+          0
+        </div>
+
+        <div class="stat-extra">
+          Public trên thư viện
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">
+          Featured
+        </div>
+
+        <div
+          id="statFeatured"
+          class="stat-value"
+        >
+          0
+        </div>
+
+        <div class="stat-extra">
+          Prompt nổi bật
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">
+          Lượt xem
+        </div>
+
+        <div
+          id="statViews"
+          class="stat-value"
+        >
+          0
+        </div>
+
+        <div class="stat-extra">
+          Tổng lượt truy cập
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TOOLBAR -->
+
+    <section class="toolbar">
+
+      <div class="search-wrap">
+
+        <span>⌕</span>
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Tìm prompt, nội dung, tag..."
+        >
+
+      </div>
+
+      <select id="categoryFilter">
+        <option value="">
+          Tất cả danh mục
+        </option>
+      </select>
+
+    </section>
+
+    <!-- PROMPTS -->
+
+    <section class="prompt-panel">
+
+      <div class="panel-head">
+
+        <h2>
+          Danh sách Prompt
+        </h2>
+
+        <span id="resultCount">
+          0 prompt
+        </span>
+
+      </div>
+
+      <div
+        id="promptList"
+        class="prompt-list"
+      ></div>
+
+    </section>
+
+  </main>
+
+  <!-- =========================
+       PROMPT MODAL
+  ========================= -->
+
+  <dialog id="promptDialog">
+
+    <div class="modal-head">
+
+      <h2 id="modalTitle">
+        Thêm Prompt
+      </h2>
+
+      <button
+        id="closeModalButton"
+        class="icon-btn"
+        type="button"
+        aria-label="Đóng"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <form id="promptForm">
+
+      <div class="modal-body">
+
+        <input
+          id="promptId"
+          type="hidden"
+        >
+
+        <div class="modal-grid">
+
+          <div class="field">
+
+            <label for="title">
+              Tiêu đề *
+            </label>
+
+            <input
+              id="title"
+              type="text"
+              placeholder="Ví dụ: MASTER PROMPT TẠO ẢNH QUOTE TÂM TRẠNG"
+              required
+            >
+
+          </div>
+
+          <div class="field">
+
+            <label for="description">
+              Mô tả ngắn
+            </label>
+
+            <input
+              id="description"
+              type="text"
+              placeholder="Mô tả ngắn cho prompt..."
+            >
+
+          </div>
+
+          <div class="two-col">
+
+            <div class="field">
+
+              <label for="categoryId">
+                Danh mục
+              </label>
+
+              <select id="categoryId">
+                <option value="">
+                  Chọn danh mục
+                </option>
+              </select>
+
+            </div>
+
+            <div class="field">
+
+              <label for="tags">
+                Tags
+              </label>
+
+              <input
+                id="tags"
+                type="text"
+                placeholder="quote, facebook, cinematic"
+              >
+
+            </div>
+
+          </div>
+
+          <div class="field">
+
+            <label for="content">
+              Nội dung Prompt *
+            </label>
+
+            <textarea
+              id="content"
+              class="content-box"
+              placeholder="Dán toàn bộ prompt vào đây..."
+              required
+            ></textarea>
+
+          </div>
+
+          <div class="switch-row">
+
+            <label class="check-card">
+
+              <input
+                id="featured"
+                type="checkbox"
+              >
+
+              <span>
+                ⭐ Prompt nổi bật
+              </span>
+
+            </label>
+
+            <label class="check-card">
+
+              <input
+                id="published"
+                type="checkbox"
+                checked
+              >
+
+              <span>
+                🌐 Xuất bản
+              </span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          id="cancelModalButton"
+          class="btn"
+          type="button"
+        >
+          Hủy
+        </button>
+
+        <button
+          class="btn primary"
+          type="submit"
+        >
+          💾 Lưu Prompt
+        </button>
+
+      </div>
+
+    </form>
+
+  </dialog>
+
+  <!-- TOAST -->
+
+  <div
+    id="toast"
+    class="toast"
+  ></div>
+
+  <script>
+
+    const state = {
+      prompts: [],
+      categories: [],
+      editingId: null
+    };
+
+    const $ = (selector) =>
+      document.querySelector(selector);
+
+    const loginPage =
+      $("#loginPage");
+
+    const dashboard =
+      $("#dashboard");
+
+    const loginForm =
+      $("#loginForm");
+
+    const loginMessage =
+      $("#loginMessage");
+
+    const logoutButton =
+      $("#logoutButton");
+
+    const promptDialog =
+      $("#promptDialog");
+
+    const promptForm =
+      $("#promptForm");
+
+    const modalTitle =
+      $("#modalTitle");
+
+    const toast =
+      $("#toast");
+
+    /* =========================
+       UTILITIES
+    ========================= */
+
+    function escapeHtml(value) {
+
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+    }
+
+    function formatNumber(value) {
+
+      return Number(value || 0)
+        .toLocaleString("vi-VN");
+
+    }
+
+    function showToast(
+      message,
+      type = "success"
+    ) {
+
+      toast.textContent = message;
+
+      toast.className =
+        `toast show ${type}`;
+
+      clearTimeout(
+        showToast.timer
+      );
+
+      showToast.timer =
+        setTimeout(() => {
+
+          toast.className =
+            "toast";
+
+        }, 2600);
+
+    }
+
+    function showLoginMessage(
+      message,
+      type = "error"
+    ) {
+
+      loginMessage.textContent =
+        message;
+
+      loginMessage.className =
+        `message ${type}`;
+
+    }
+
+    async function api(
+      url,
+      options = {}
+    ) {
+
+      const response =
+        await fetch(url, {
+          credentials: "same-origin",
+          ...options
+        });
+
+      let data = {};
+
+      try {
+        data = await response.json();
+      } catch {
+        data = {};
+      }
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error ||
+          "Có lỗi xảy ra."
+        );
+
+      }
+
+      return data;
+    }
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    async function checkSession() {
+
+      try {
+
+        const data =
+          await api(
+            "/api/admin/me"
+          );
+
+        if (data.authenticated) {
+
+          showDashboard();
+
+          return true;
+
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+      }
+
+      showLogin();
+
+      return false;
+
+    }
+
+    function showLogin() {
+
+      loginPage.classList.remove(
+        "hidden"
+      );
+
+      dashboard.classList.add(
+        "hidden"
+      );
+
+      logoutButton.classList.add(
+        "hidden"
+      );
+
+    }
+
+    function showDashboard() {
+
+      loginPage.classList.add(
+        "hidden"
+      );
+
+      dashboard.classList.remove(
+        "hidden"
+      );
+
+      logoutButton.classList.remove(
+        "hidden"
+      );
+
+    }
+
+    loginForm.addEventListener(
+      "submit",
+      async (event) => {
+
+        event.preventDefault();
+
+        const password =
+          $("#password").value.trim();
+
+        if (!password) {
+
+          showLoginMessage(
+            "Vui lòng nhập mật khẩu."
+          );
+
+          return;
+
+        }
+
+        const button =
+          loginForm.querySelector(
+            "button[type='submit']"
+          );
+
+        const original =
+          button.textContent;
+
+        button.disabled = true;
+        button.textContent =
+          "Đang đăng nhập...";
+
+        try {
+
+          await api(
+            "/api/admin/login",
+            {
+              method: "POST",
+
+              headers: {
+                "content-type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+                  password
+                })
+            }
+          );
+
+          $("#password").value = "";
+
+          showDashboard();
+
+          showToast(
+            "Đăng nhập thành công."
+          );
+
+          await loadDashboard();
+
+        } catch (error) {
+
+          showLoginMessage(
+            error.message
+          );
+
+        } finally {
+
+          button.disabled = false;
+
+          button.textContent =
+            original;
+
+        }
+
+      }
+    );
+
+    logoutButton.addEventListener(
+      "click",
+      async () => {
+
+        try {
+
+          await api(
+            "/api/admin/logout",
+            {
+              method: "POST"
+            }
+          );
+
+        } catch (error) {
+
+          console.error(error);
+
+        }
+
+        state.prompts = [];
+
+        showLogin();
+
+        showLoginMessage(
+          "Bạn đã đăng xuất.",
+          "success"
+        );
+
+      }
+    );
+
+    /* =========================
+       CATEGORIES
+    ========================= */
+
+    async function loadCategories() {
+
+      const data =
+        await api(
+          "/api/categories"
+        );
+
+      state.categories =
+        data.categories || [];
+
+      renderCategoryOptions();
+
+    }
+
+    function renderCategoryOptions() {
+
+      const filter =
+        $("#categoryFilter");
+
+      const categoryId =
+        $("#categoryId");
+
+      const currentFilter =
+        filter.value;
+
+      const currentCategory =
+        categoryId.value;
+
+      filter.innerHTML = `
+        <option value="">
+          Tất cả danh mục
+        </option>
+
+        ${state.categories.map(
+          (category) => `
+            <option
+              value="${escapeHtml(category.slug)}"
+            >
+              ${escapeHtml(category.name)}
+            </option>
+          `
+        ).join("")}
+      `;
+
+      categoryId.innerHTML = `
+        <option value="">
+          Chọn danh mục
+        </option>
+
+        ${state.categories.map(
+          (category) => `
+            <option
+              value="${category.id}"
+            >
+              ${escapeHtml(category.name)}
+            </option>
+          `
+        ).join("")}
+      `;
+
+      filter.value =
+        currentFilter;
+
+      categoryId.value =
+        currentCategory;
+
+    }
+
+    /* =========================
+       PROMPTS
+    ========================= */
+
+    async function loadPrompts() {
+
+      const data =
+        await api(
+          "/api/admin/prompts"
+        );
+
+      state.prompts =
+        data.prompts || [];
+
+      renderStats();
+
+      renderPrompts();
+
+    }
+
+    function renderStats() {
+
+      const prompts =
+        state.prompts;
+
+      const published =
+        prompts.filter(
+          (p) =>
+            Number(p.published) === 1
+        ).length;
+
+      const featured =
+        prompts.filter(
+          (p) =>
+            Number(p.featured) === 1
+        ).length;
+
+      const views =
+        prompts.reduce(
+          (sum, p) =>
+            sum +
+            Number(p.views || 0),
+          0
+        );
+
+      $("#statPrompts")
+        .textContent =
+        formatNumber(
+          prompts.length
+        );
+
+      $("#statPublished")
+        .textContent =
+        formatNumber(
+          published
+        );
+
+      $("#statFeatured")
+        .textContent =
+        formatNumber(
+          featured
+        );
+
+      $("#statViews")
+        .textContent =
+        formatNumber(
+          views
+        );
+
+    }
+
+    function filteredPrompts() {
+
+      const query =
+        $("#searchInput")
+          .value
+          .trim()
+          .toLowerCase();
+
+      const category =
+        $("#categoryFilter")
+          .value;
+
+      return state.prompts.filter(
+        (prompt) => {
+
+          const text =
+            [
+              prompt.title,
+              prompt.description,
+              prompt.content,
+              prompt.tags,
+              prompt.category_name
+            ]
+              .join(" ")
+              .toLowerCase();
+
+          const matchSearch =
+            !query ||
+            text.includes(query);
+
+          const matchCategory =
+            !category ||
+            prompt.category_slug ===
+              category;
+
+          return (
+            matchSearch &&
+            matchCategory
+          );
+
+        }
+      );
+
+    }
+
+    function renderPrompts() {
+
+      const prompts =
+        filteredPrompts();
+
+      $("#resultCount")
+        .textContent =
+        `${formatNumber(prompts.length)} prompt`;
+
+      const list =
+        $("#promptList");
+
+      if (!prompts.length) {
+
+        list.innerHTML = `
+          <div class="empty">
+            Không tìm thấy prompt phù hợp.
+          </div>
+        `;
+
+        return;
+
+      }
+
+      list.innerHTML =
+        prompts.map(
+          (prompt) => {
+
+            const featured =
+              Number(prompt.featured) === 1;
+
+            const published =
+              Number(prompt.published) === 1;
+
+            return `
+              <article
+                class="prompt-card"
+              >
+
+                <div>
+
+                  <div class="prompt-top">
+
+                    <div>
+
+                      <h3
+                        class="prompt-title"
+                      >
+                        ${escapeHtml(
+                          prompt.title
+                        )}
+                      </h3>
+
+                      <div
+                        class="prompt-slug"
+                      >
+                        ${escapeHtml(
+                          prompt.slug
+                        )}
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <div class="badges">
+
+                    <span
+                      class="badge"
+                    >
+                      ${escapeHtml(
+                        prompt.category_name ||
+                        "Chưa phân loại"
+                      )}
+                    </span>
+
+                    ${
+                      featured
+                        ? `
+                          <span
+                            class="badge featured"
+                          >
+                            ⭐ Featured
+                          </span>
+                        `
+                        : ""
+                    }
+
+                    ${
+                      published
+                        ? `
+                          <span
+                            class="badge published"
+                          >
+                            ● Published
+                          </span>
+                        `
+                        : `
+                          <span
+                            class="badge draft"
+                          >
+                            ● Nháp
+                          </span>
+                        `
+                    }
+
+                  </div>
+
+                  ${
+                    prompt.description
+                      ? `
+                        <p
+                          class="prompt-description"
+                        >
+                          ${escapeHtml(
+                            prompt.description
+                          )}
+                        </p>
+                      `
+                      : ""
+                  }
+
+                  <div class="prompt-meta">
+
+                    <span>
+                      👁 ${formatNumber(
+                        prompt.views
+                      )}
+                    </span>
+
+                    <span>
+                      ⧉ ${formatNumber(
+                        prompt.copies
+                      )}
+                    </span>
+
+                    <span>
+                      ${escapeHtml(
+                        prompt.tags || ""
+                      )}
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div
+                  class="prompt-actions"
+                >
+
+                  <button
+                    class="btn small"
+                    type="button"
+                    data-action="edit"
+                    data-id="${prompt.id}"
+                  >
+                    ✏️ Sửa
+                  </button>
+
+                  <button
+                    class="btn small"
+                    type="button"
+                    data-action="copy"
+                    data-id="${prompt.id}"
+                  >
+                    ⧉ Sao chép
+                  </button>
+
+                  <button
+                    class="btn small danger"
+                    type="button"
+                    data-action="delete"
+                    data-id="${prompt.id}"
+                  >
+                    🗑 Xóa
+                  </button>
+
+                </div>
+
+              </article>
+            `;
+
+          }
+        ).join("");
+
+    }
+
+    /* =========================
+       COPY
+    ========================= */
+
+    async function copyPrompt(id) {
+
+      const prompt =
+        state.prompts.find(
+          (item) =>
+            Number(item.id) ===
+            Number(id)
+        );
+
+      if (!prompt) return;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          prompt.content
+        );
+
+        showToast(
+          "Đã sao chép toàn bộ prompt."
+        );
+
+      } catch {
+
+        const textarea =
+          document.createElement(
+            "textarea"
+          );
+
+        textarea.value =
+          prompt.content;
+
+        document.body.appendChild(
+          textarea
+        );
+
+        textarea.select();
+
+        document.execCommand(
+          "copy"
+        );
+
+        textarea.remove();
+
+        showToast(
+          "Đã sao chép prompt."
+        );
+
+      }
+
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    function openCreateModal() {
+
+      state.editingId = null;
+
+      modalTitle.textContent =
+        "Thêm Prompt";
+
+      promptForm.reset();
+
+      $("#published").checked =
+        true;
+
+      $("#featured").checked =
+        false;
+
+      $("#promptId").value =
+        "";
+
+      promptDialog.showModal();
+
+    }
+
+    function openEditModal(id) {
+
+      const prompt =
+        state.prompts.find(
+          (item) =>
+            Number(item.id) ===
+            Number(id)
+        );
+
+      if (!prompt) return;
+
+      state.editingId =
+        Number(id);
+
+      modalTitle.textContent =
+        "Chỉnh sửa Prompt";
+
+      $("#promptId").value =
+        prompt.id;
+
+      $("#title").value =
+        prompt.title || "";
+
+      $("#description").value =
+        prompt.description || "";
+
+      $("#content").value =
+        prompt.content || "";
+
+      $("#categoryId").value =
+        prompt.category_id || "";
+
+      $("#tags").value =
+        prompt.tags || "";
+
+      $("#featured").checked =
+        Number(prompt.featured) === 1;
+
+      $("#published").checked =
+        Number(prompt.published) === 1;
+
+      promptDialog.showModal();
+
+    }
+
+    function closeModal() {
+
+      promptDialog.close();
+
+      state.editingId = null;
+
+    }
+
+    /* =========================
+       SAVE PROMPT
+    ========================= */
+
+    promptForm.addEventListener(
+      "submit",
+      async (event) => {
+
+        event.preventDefault();
+
+        const title =
+          $("#title")
+            .value
+            .trim();
+
+        const content =
+          $("#content")
+            .value
+            .trim();
+
+        if (!title || !content) {
+
+          showToast(
+            "Tiêu đề và nội dung prompt là bắt buộc.",
+            "error"
+          );
+
+          return;
+
+        }
+
+        const body = {
+
+          title,
+
+          description:
+            $("#description")
+              .value
+              .trim(),
+
+          content,
+
+          category_id:
+            $("#categoryId")
+              .value || null,
+
+          tags:
+            $("#tags")
+              .value
+              .trim(),
+
+          featured:
+            $("#featured")
+              .checked,
+
+          published:
+            $("#published")
+              .checked
+
+        };
+
+        const submitButton =
+          promptForm.querySelector(
+            "button[type='submit']"
+          );
+
+        const original =
+          submitButton.textContent;
+
+        submitButton.disabled =
+          true;
+
+        submitButton.textContent =
+          "Đang lưu...";
+
+        try {
+
+          if (state.editingId) {
+
+            await api(
+              `/api/admin/prompts/${state.editingId}`,
+              {
+                method: "PUT",
+
+                headers: {
+                  "content-type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify(body)
+              }
+            );
+
+            showToast(
+              "Đã cập nhật prompt."
+            );
+
+          } else {
+
+            await api(
+              "/api/admin/prompts",
+              {
+                method: "POST",
+
+                headers: {
+                  "content-type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify(body)
+              }
+            );
+
+            showToast(
+              "Đã thêm prompt mới."
+            );
+
+          }
+
+          closeModal();
+
+          await loadPrompts();
+
+        } catch (error) {
+
+          showToast(
+            error.message,
+            "error"
+          );
+
+        } finally {
+
+          submitButton.disabled =
+            false;
+
+          submitButton.textContent =
+            original;
+
+        }
+
+      }
+    );
+
+    /* =========================
+       DELETE
+    ========================= */
+
+    async function deletePrompt(id) {
+
+      const prompt =
+        state.prompts.find(
+          (item) =>
+            Number(item.id) ===
+            Number(id)
+        );
+
+      if (!prompt) return;
+
+      const confirmed =
+        window.confirm(
+          `Xóa prompt:\n\n"${prompt.title}"\n\nHành động này không thể hoàn tác.`
+        );
+
+      if (!confirmed) return;
+
+      try {
+
+        await api(
+          `/api/admin/prompts/${id}`,
+          {
+            method: "DELETE"
+          }
+        );
+
+        showToast(
+          "Đã xóa prompt."
+        );
+
+        await loadPrompts();
+
+      } catch (error) {
+
+        showToast(
+          error.message,
+          "error"
+        );
+
+      }
+
+    }
+
+    /* =========================
+       EVENT DELEGATION
+    ========================= */
+
+    $("#promptList").addEventListener(
+      "click",
+      async (event) => {
+
+        const button =
+          event.target.closest(
+            "button[data-action]"
+          );
+
+        if (!button) return;
+
+        const action =
+          button.dataset.action;
+
+        const id =
+          Number(button.dataset.id);
+
+        if (action === "edit") {
+
+          openEditModal(id);
+
+        }
+
+        if (action === "delete") {
+
+          await deletePrompt(id);
+
+        }
+
+        if (action === "copy") {
+
+          await copyPrompt(id);
+
+        }
+
+      }
+    );
+
+    /* =========================
+       FILTER
+    ========================= */
+
+    $("#searchInput")
+      .addEventListener(
+        "input",
+        renderPrompts
+      );
+
+    $("#categoryFilter")
+      .addEventListener(
+        "change",
+        renderPrompts
+      );
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    $("#addPromptButton")
+      .addEventListener(
+        "click",
+        openCreateModal
+      );
+
+    $("#refreshButton")
+      .addEventListener(
+        "click",
+        async () => {
+
+          try {
+
+            await loadDashboard();
+
+            showToast(
+              "Đã cập nhật dữ liệu."
+            );
+
+          } catch (error) {
+
+            showToast(
+              error.message,
+              "error"
+            );
+
+          }
+
+        }
+      );
+
+    $("#closeModalButton")
+      .addEventListener(
+        "click",
+        closeModal
+      );
+
+    $("#cancelModalButton")
+      .addEventListener(
+        "click",
+        closeModal
+      );
+
+    promptDialog.addEventListener(
+      "click",
+      (event) => {
+
+        if (
+          event.target ===
+          promptDialog
+        ) {
+
+          closeModal();
+
+        }
+
+      }
+    );
+
+    /* =========================
+       LOAD DASHBOARD
+    ========================= */
+
+    async function loadDashboard() {
+
+      await Promise.all([
+        loadCategories(),
+        loadPrompts()
+      ]);
+
+    }
+
+    /* =========================
+       START
+    ========================= */
+
+    (async () => {
+
+      const authenticated =
+        await checkSession();
+
+      if (authenticated) {
+
+        try {
+
+          await loadDashboard();
+
+        } catch (error) {
+
+          showToast(
+            error.message,
+            "error"
+          );
+
+        }
+
+      }
+
+    })();
+
+  </script>
+
+</body>
+</html>
