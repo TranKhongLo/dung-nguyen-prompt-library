@@ -1,4 +1,4 @@
-const CACHE = "shareprompt-v1-4-stage3";
+const CACHE = "shareprompt-v1-5-stage4";
 const SHELL = [
   "/",
   "/builder.html",

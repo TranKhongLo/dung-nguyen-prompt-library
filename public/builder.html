@@ -1,6 +1,114 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#090b10"><title>Prompt Builder · DUNG NGUYEN</title><link rel="stylesheet" href="/assets/site.css"></head><body>
-<header class="topbar"><a class="brand" href="/">DUNG NGUYEN <span>PROMPTS</span></a><div class="header-actions"><a class="link-btn" href="/">← Thư viện</a><a class="link-btn" href="/saved.html">☆ Đã lưu</a></div></header>
-<main class="wrap"><section style="padding:25px 0 20px"><p class="eyebrow">PROMPT BUILDER</p><h1 class="page-title">Tạo Prompt <span style="background:linear-gradient(90deg,#fff,#8895ff);-webkit-background-clip:text;background-clip:text;color:transparent">thông minh</span></h1><p class="page-sub">Smart Template Builder hoạt động ngay trên thiết bị, không cần API key.</p></section>
-<section class="panel"><div class="form-grid"><div class="field"><label>Chủ đề</label><input id="topic" placeholder="Ví dụ: Người đàn ông ngồi một mình bên cửa sổ lúc hoàng hôn"></div><div class="field"><label>Mục tiêu</label><select id="goal"><option>Tạo ảnh</option><option>Tạo video</option><option>Viết nội dung</option><option>Thumbnail YouTube</option><option>Facebook</option></select></div><div class="field"><label>Phong cách</label><input id="style" value="cinematic, realistic, emotional, detailed"></div><div class="field"><label>Tông cảm xúc</label><input id="tone" value="deep, melancholic, mature"></div><div class="field"><label>Tỷ lệ / format</label><select id="format"><option>9:16</option><option>16:9</option><option>4:5</option><option>1:1</option></select></div><div class="field"><label>Ngôn ngữ</label><select id="language"><option>Vietnamese</option><option>English</option><option>Vietnamese + English</option></select></div><div class="field full"><label>Chi tiết bổ sung</label><textarea id="details" placeholder="Nhân vật, bối cảnh, camera, ánh sáng, thời gian, chuyển động..."></textarea></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button id="build" class="btn primary">✨ Tạo Prompt</button><button id="copy" class="btn" type="button">📋 Sao chép</button><button id="clear" class="btn" type="button">↺ Xóa</button></div></section>
-<section class="panel" style="margin-top:15px"><div class="toolbar" style="margin:0 0 8px"><h2>Kết quả</h2><span class="muted-count">Smart Template</span></div><pre id="result" style="white-space:pre-wrap;margin:0;color:#e7ebf3;font:13px/1.75 ui-monospace,SFMono-Regular,Menlo,monospace;min-height:220px"></pre></section></main>
-<script>const $=s=>document.querySelector(s);function build(){const topic=$("#topic").value.trim();if(!topic){$("#result").textContent="Hãy nhập chủ đề trước.";return}const goal=$("#goal").value,style=$("#style").value.trim(),tone=$("#tone").value.trim(),format=$("#format").value,language=$("#language").value,details=$("#details").value.trim();$("#result").textContent=`You are a professional AI content creator. Create a high-quality ${goal.toLowerCase()} prompt.\n\nSUBJECT:\n${topic}\n\nSTYLE:\n${style}\n\nEMOTIONAL TONE:\n${tone}\n\nFORMAT / ASPECT RATIO:\n${format}\n\nLANGUAGE:\n${language}\n\nADDITIONAL DETAILS:\n${details||"Use the subject naturally and add coherent cinematic details."}\n\nQUALITY REQUIREMENTS:\nClear subject, coherent composition, realistic lighting, rich atmosphere, professional visual language, strong emotional impact, no unnecessary text, no distorted anatomy, no duplicated objects.`}$("#build").addEventListener("click",build);$("#copy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("#result").textContent);alert("Đã sao chép prompt.")}catch{}});$("#clear").addEventListener("click",()=>{$("#topic").value="";$("#details").value="";$("#result").textContent=""});</script></body></html>
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090b10">
+<meta name="description" content="AI Prompt Builder đa nền tảng · DUNG NGUYEN PROMPTS">
+<title>AI Prompt Builder · DUNG NGUYEN</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+.provider-card{border:1px solid #293244;border-radius:18px;background:#0f141d;padding:16px;margin-bottom:14px}.provider-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.provider-title{font-weight:900;font-size:16px}.provider-note{color:#7f899d;font-size:11px;line-height:1.5;margin-top:4px}.session-only{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;border:1px solid rgba(61,220,151,.2);background:rgba(61,220,151,.07);color:#bdf3d8;font-size:10px;font-weight:900}.provider-fields{display:grid;grid-template-columns:1.1fr 1fr auto;gap:10px;margin-top:13px}.key-input{position:relative}.key-input input{padding-right:44px}.reveal-key{position:absolute;right:7px;top:50%;transform:translateY(-50%);min-width:34px;height:34px;border:1px solid #293244;border-radius:9px;background:#0d121a;color:#bfc7d7;cursor:pointer}.provider-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}.provider-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid #293244;border-radius:999px;background:#0d121a;color:#d8deea;font-size:11px}.provider-chip .dot{width:7px;height:7px;border-radius:50%;background:#3ddc97}.remove-key{border:0;background:none;color:#ff9d9d;cursor:pointer;padding:0 0 0 4px}.privacy-note{margin-top:10px;color:#8590a4;font-size:11px;line-height:1.6}.privacy-note strong{color:#b8c2d4}.provider-status{display:inline-flex;align-items:center;gap:7px;margin-top:10px;color:#9ea9bd;font-size:11px}.builder-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.builder-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.builder-tab{min-height:40px;padding:0 13px;border:1px solid #293244;border-radius:11px;background:#0d121a;color:#bfc7d7;font-weight:800;cursor:pointer}.builder-tab.active{color:#0a0c11;background:#8d99ff;border-color:#8d99ff}.builder-output{white-space:pre-wrap;min-height:330px;color:#e8edf6;font:13px/1.8 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.helper{margin-top:8px;color:#7f899d;font-size:12px;line-height:1.6}.mode-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}.ai-status{display:inline-flex;align-items:center;gap:7px;min-height:30px;padding:0 10px;border:1px solid #293244;border-radius:999px;color:#9ea9bd;background:#0d121a;font-size:11px;font-weight:800}.ai-status.ok{color:#bdf3d8;border-color:rgba(61,220,151,.2);background:rgba(61,220,151,.07)}.ai-status.off{color:#f0caa4;border-color:rgba(245,196,94,.2);background:rgba(245,196,94,.06)}.danger-outline{color:#ffaaaa!important;border-color:rgba(255,102,102,.25)!important}
+@media(max-width:760px){.builder-grid{grid-template-columns:1fr}.provider-fields{grid-template-columns:1fr}.provider-fields .btn{width:100%}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">DUNG NGUYEN <span>PROMPTS</span></a>
+  <div class="header-actions"><a class="link-btn" href="/">← Thư viện</a><a class="link-btn" href="/saved.html">☆ Đã lưu</a></div>
+</header>
+<main class="wrap">
+  <section style="padding:28px 0 18px">
+    <p class="eyebrow">PROMPT BUILDER · V1.5 MULTI-PROVIDER</p>
+    <h1 class="page-title">Tạo Prompt <span style="background:linear-gradient(90deg,#fff,#8895ff);-webkit-background-clip:text;background-clip:text;color:transparent">bằng AI</span></h1>
+    <p class="page-sub">Kết nối Gemini, OpenAI, Claude, OpenRouter, Groq hoặc DeepSeek. API key chỉ tồn tại trong bộ nhớ của tab trình duyệt hiện tại và được gửi qua Worker khi bạn bấm tạo/test. Không lưu vào D1, GitHub, cookie, localStorage hay backup.</p>
+    <div class="mode-row"><span id="providerStatus" class="ai-status">Chưa chọn provider</span><span id="modelStatus" class="ai-status">Model: —</span></div>
+  </section>
+
+  <section class="panel">
+    <div class="provider-card">
+      <div class="provider-header">
+        <div><div class="provider-title">🔐 API Keys dùng trong phiên</div><div class="provider-note">Thêm key để dùng trực tiếp với AI Builder. Khi đóng tab hoặc tải lại trang, key trong bộ nhớ sẽ biến mất.</div></div>
+        <span class="session-only">● KHÔNG LƯU</span>
+      </div>
+      <div class="provider-fields">
+        <div class="field"><label>Nền tảng AI</label><select id="provider"></select></div>
+        <div class="field"><label>API Key</label><div class="key-input"><input id="apiKey" type="password" autocomplete="off" placeholder="Dán API key tại đây"><button id="revealKey" class="reveal-key" type="button" aria-label="Hiện key">◉</button></div></div>
+        <div class="field"><label>Model</label><input id="model" autocomplete="off" placeholder="Model ID"></div>
+      </div>
+      <div class="actions" style="margin-top:11px;flex-wrap:wrap">
+        <button id="addKey" class="btn primary" type="button">＋ Thêm key vào phiên</button>
+        <button id="testKey" class="btn" type="button">✓ Kiểm tra key</button>
+        <button id="clearKeys" class="btn danger-outline" type="button">🗑 Xóa toàn bộ key</button>
+      </div>
+      <div id="providerList" class="provider-list"></div>
+      <div id="providerTestStatus" class="provider-status"></div>
+      <div class="privacy-note"><strong>Bảo mật:</strong> SharePrompt không có nút “lưu key”. Key chỉ được giữ trong RAM của trang hiện tại. Khi gọi AI, Worker nhận key theo từng request và không ghi key vào D1, secrets hay backup.</div>
+    </div>
+
+    <div class="builder-tabs">
+      <button id="tabAi" class="builder-tab active" type="button">✨ AI Builder</button>
+      <button id="tabTemplate" class="builder-tab" type="button">🧩 Smart Template</button>
+    </div>
+
+    <div class="builder-grid">
+      <div class="field"><label>Chủ đề *</label><input id="topic" maxlength="6000" placeholder="Ví dụ: Người đàn ông đi dưới mưa lúc nửa đêm"></div>
+      <div class="field"><label>Mục tiêu</label><select id="goal"><option>Tạo ảnh</option><option>Tạo video</option><option>Viết nội dung</option><option>Thumbnail YouTube</option><option>Facebook</option><option>Viết nhạc</option></select></div>
+      <div class="field"><label>Công cụ AI</label><input id="tool" placeholder="Seedance, Veo, Midjourney, Suno..."></div>
+      <div class="field"><label>Phong cách</label><input id="style" value="cinematic, realistic, emotional, detailed"></div>
+      <div class="field"><label>Tông cảm xúc</label><input id="tone" value="deep, mature, emotional"></div>
+      <div class="field"><label>Tỷ lệ / format</label><select id="format"><option>9:16</option><option>16:9</option><option>4:5</option><option>1:1</option><option>4K</option></select></div>
+      <div class="field"><label>Thời lượng</label><select id="duration"><option>Không cố định</option><option>5 giây</option><option>8 giây</option><option>10 giây</option><option>12 giây</option><option>15 giây</option><option>20 giây</option><option>25 giây</option><option>30 giây</option></select></div>
+      <div class="field"><label>Ngôn ngữ</label><select id="language"><option>Vietnamese</option><option>English</option><option>Vietnamese + English</option></select></div>
+      <div class="field full"><label>Chi tiết bổ sung</label><textarea id="details" maxlength="5000" placeholder="Nhân vật, bối cảnh, camera, ánh sáng, chuyển động, âm thanh, CTA..."></textarea></div>
+    </div>
+    <div class="actions" style="margin-top:15px;flex-wrap:wrap">
+      <button id="generate" class="btn primary" type="button">✨ Tạo Prompt AI</button>
+      <button id="copy" class="btn" type="button">📋 Sao chép</button>
+      <button id="share" class="btn" type="button">📎 Copy link</button>
+      <button id="clear" class="btn" type="button">↺ Xóa</button>
+    </div>
+    <div id="helper" class="helper"></div>
+  </section>
+
+  <section class="panel" style="margin-top:15px">
+    <div class="toolbar2" style="margin:0 0 8px"><div><h2 style="margin:0">Kết quả</h2><p id="resultMeta" class="section-note">Chưa tạo prompt.</p></div></div>
+    <pre id="result" class="builder-output"></pre>
+  </section>
+
+  <footer class="footer"><div class="copyright"><strong>DUNG NGUYEN PROMPTS</strong><br>© 2026 DUNG NGUYEN PROMPTS. Bản quyền ứng dụng, giao diện và hệ thống thuộc về chủ sở hữu ứng dụng.<br><a class="footer-link" href="https://www.facebook.com/dungnguyenvl" target="_blank" rel="noopener noreferrer">↗ Facebook · @dungnguyenvl</a></div></footer>
+</main>
+<div id="toast" class="toast"></div>
+<script>
+const $=s=>document.querySelector(s);
+const sessionKeys=Object.create(null);
+const providerDefaults={
+  gemini:{label:"Google Gemini",model:"gemini-3.8-flash"},
+  openai:{label:"OpenAI",model:"gpt-5"},
+  anthropic:{label:"Anthropic Claude",model:"claude-sonnet-4"},
+  openrouter:{label:"OpenRouter",model:"openai/gpt-5"},
+  groq:{label:"Groq",model:"openai/gpt-oss-20b"},
+  deepseek:{label:"DeepSeek",model:"deepseek-flash"}
+};
+let providers={...providerDefaults};
+let mode="ai";
+function toast(m,t="success"){const e=$("#toast");e.textContent=m;e.className=`toast show ${t}`;clearTimeout(toast.t);toast.t=setTimeout(()=>e.className="toast",2600)}
+function maskKey(key){if(!key)return"";if(key.length<=8)return"••••••••";return `${key.slice(0,4)}••••••••${key.slice(-4)}`}
+function refreshProviderStatus(){const id=$("#provider").value;const cfg=providers[id]||providerDefaults[id];const has=!!sessionKeys[id];$("#providerStatus").textContent=has?`● ${cfg.label} · Key đang sẵn sàng`:`● ${cfg.label} · Chưa thêm key`;$("#providerStatus").className=`ai-status ${has?"ok":"off"}`;$("#modelStatus").textContent=`Model: ${$("#model").value.trim()||cfg.model}`;renderKeys()}
+function renderKeys(){const box=$("#providerList");const entries=Object.entries(sessionKeys);box.innerHTML=entries.length?entries.map(([id,v])=>`<span class="provider-chip"><span class="dot"></span>${providers[id]?.label||id} · ${maskKey(v.key)} · ${v.model}<button class="remove-key" type="button" data-remove-key="${id}">×</button></span>`).join(""):"<span style=\"color:#707b8f;font-size:11px\">Chưa có API key nào trong phiên.</span>"}
+function populateProviders(){const sel=$("#provider");sel.innerHTML=Object.entries(providers).map(([id,c])=>`<option value="${id}">${c.label}</option>`).join("");syncModelFromProvider();}
+function syncModelFromProvider(){const id=$("#provider").value;const existing=sessionKeys[id];$("#model").value=existing?.model||providers[id]?.model||"";$("#apiKey").value="";refreshProviderStatus()}
+function setMode(next){mode=next;$("#tabAi").classList.toggle("active",mode==="ai");$("#tabTemplate").classList.toggle("active",mode==="template");$("#generate").textContent=mode==="ai"?"✨ Tạo Prompt AI":"🧩 Tạo Prompt Template";$("#helper").textContent=mode==="ai"?"AI Builder gửi API key từ RAM của tab → Worker → nhà cung cấp. Key không được lưu." :"Smart Template chạy hoàn toàn trên thiết bị, không dùng API key."}
+function payload(){return{topic:$("#topic").value.trim(),goal:$("#goal").value,tool:$("#tool").value.trim(),style:$("#style").value.trim(),tone:$("#tone").value.trim(),format:$("#format").value,duration:$("#duration").value,language:$("#language").value,details:$("#details").value.trim()}}
+function templatePrompt(p){return `You are a professional AI content creator. Create a production-ready ${p.goal.toLowerCase()} prompt.\n\nSUBJECT:\n${p.topic}\n\nAI TOOL:\n${p.tool||"Use the most suitable AI tool."}\n\nSTYLE:\n${p.style}\n\nEMOTIONAL TONE:\n${p.tone}\n\nFORMAT / ASPECT RATIO:\n${p.format}\n\nDURATION:\n${p.duration}\n\nLANGUAGE:\n${p.language}\n\nADDITIONAL DETAILS:\n${p.details||"Use coherent cinematic details and preserve the core subject."}\n\nQUALITY REQUIREMENTS:\nClear subject hierarchy, coherent composition, intentional camera language, realistic lighting, strong atmosphere, consistent details, professional visual language, useful technical specificity, no unnecessary text, no distorted anatomy, no duplicated objects.`}
+async function generate(){const p=payload();if(!p.topic){toast("Hãy nhập chủ đề trước.","error");return}const providerId=$("#provider").value;const key=sessionKeys[providerId]?.key||$("#apiKey").value.trim();if(mode==="ai"&&!key&&providerId!=="gemini"){toast("Hãy thêm API key cho nền tảng đang chọn.","error");return}$("#generate").disabled=true;$("#result").textContent="Đang tạo prompt...";$("#resultMeta").textContent=mode==="ai"?`Đang dùng ${providers[providerId]?.label||providerId}...`:"Smart Template";try{if(mode==="template"){$("#result").textContent=templatePrompt(p);$("#resultMeta").textContent="Smart Template · không dùng API key";return}let r,d;if(providerId==="gemini"&&!key){r=await fetch("/api/ai/generate",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(p)});d=await r.json();}else{const body={provider:providerId,apiKey:key,model:$("#model").value.trim(),...p};r=await fetch("/api/ai/session",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)});d=await r.json();}if(!r.ok)throw new Error(d.error||"Không thể tạo prompt");$("#result").textContent=d.prompt||"";$("#resultMeta").textContent=d.fallback?"Smart Template fallback":`${providers[providerId]?.label||providerId} · ${d.model||$("#model").value}`;}catch(e){toast(e.message,"error");$("#result").textContent=templatePrompt(p);$("#resultMeta").textContent="AI không khả dụng · đã chuyển sang Smart Template fallback"}finally{$("#generate").disabled=false}}
+async function testKey(){const providerId=$("#provider").value;const key=$("#apiKey").value.trim()||sessionKeys[providerId]?.key||"";const model=$("#model").value.trim();if(!key){toast("Hãy nhập API key trước.","error");return}$("#testKey").disabled=true;$("#providerTestStatus").textContent="Đang kiểm tra key...";try{const r=await fetch("/api/ai/session",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({provider:providerId,apiKey:key,model,test:true})});const d=await r.json();if(!r.ok)throw new Error(d.error||"API key không hoạt động");$("#providerTestStatus").textContent=`✅ Kết nối thành công · ${providers[providerId]?.label||providerId} · ${d.model||model}`;$("#providerTestStatus").style.color="#bdf3d8";toast("API key hoạt động tốt.")}catch(e){$("#providerTestStatus").textContent=`❌ ${e.message}`;$("#providerTestStatus").style.color="#ffb4b4";toast(e.message,"error")}finally{$("#testKey").disabled=false}}
+function addKey(){const providerId=$("#provider").value;const key=$("#apiKey").value.trim();const model=$("#model").value.trim()||providers[providerId]?.model||"";if(!key){toast("Hãy nhập API key.","error");return}sessionKeys[providerId]={key,model};$("#apiKey").value="";refreshProviderStatus();toast(`Đã thêm ${providers[providerId]?.label||providerId} vào phiên. Key chưa được lưu.`)}
+function removeKey(id){delete sessionKeys[id];if($("#provider").value===id)$("#apiKey").value="";refreshProviderStatus();toast("Đã xóa key khỏi bộ nhớ phiên.")}
+function clearKeys(){for(const key of Object.keys(sessionKeys))delete sessionKeys[key];$("#apiKey").value="";refreshProviderStatus();toast("Đã xóa toàn bộ API key khỏi bộ nhớ phiên.")}
+async function copy(){const text=$("#result").textContent.trim();if(!text)return toast("Chưa có kết quả.","error");try{await navigator.clipboard.writeText(text);toast("Đã sao chép prompt.")}catch{toast("Không thể sao chép.","error")}}
+async function share(){try{await navigator.clipboard.writeText(location.href.split("#")[0]);toast("Đã sao chép link Builder.")}catch{toast("Không thể sao chép link.","error")}}
+$("#provider").addEventListener("change",syncModelFromProvider);$("#model").addEventListener("input",refreshProviderStatus);$("#revealKey").addEventListener("click",()=>{$("#apiKey").type=$("#apiKey").type==="password"?"text":"password"});$("#addKey").addEventListener("click",addKey);$("#testKey").addEventListener("click",testKey);$("#clearKeys").addEventListener("click",clearKeys);$("#providerList").addEventListener("click",e=>{const b=e.target.closest("[data-remove-key]");if(b)removeKey(b.dataset.removeKey)});$("#tabAi").addEventListener("click",()=>setMode("ai"));$("#tabTemplate").addEventListener("click",()=>setMode("template"));$("#generate").addEventListener("click",generate);$("#copy").addEventListener("click",copy);$("#share").addEventListener("click",share);$("#clear").addEventListener("click",()=>{$("#topic").value="";$("#details").value="";$("#result").textContent="";$("#resultMeta").textContent="Chưa tạo prompt.";});populateProviders();setMode("ai");
+</script>
+</body>
+</html>
