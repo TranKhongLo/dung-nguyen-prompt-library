@@ -1,4 +1,4 @@
-const CACHE = "shareprompt-v1-3";
+const CACHE = "shareprompt-v1-3-1-stage2";
 const SHELL = [
   "/",
   "/builder.html",
@@ -10,19 +10,42 @@ const SHELL = [
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)).then(() => self.skipWaiting()));
+  event.waitUntil(
+    caches.open(CACHE)
+      .then((cache) => cache.addAll(SHELL))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)))).then(() => self.clients.claim()));
+  event.waitUntil(
+    caches.keys()
+      .then((keys) => Promise.all(
+        keys
+          .filter((key) => key !== CACHE)
+          .map((key) => caches.delete(key))
+      ))
+      .then(() => self.clients.claim())
+  );
 });
 
 self.addEventListener("fetch", (event) => {
   const request = event.request;
   if (request.method !== "GET") return;
+
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
-  if (url.pathname.startsWith("/api/")) return;
+
+  // Never cache dynamic/admin/API/SEO prompt pages.
+  if (
+    url.pathname.startsWith("/api/") ||
+    url.pathname.startsWith("/prompt/") ||
+    url.pathname === "/prompt.html" ||
+    url.pathname === "/admin.html" ||
+    url.pathname === "/sitemap.xml"
+  ) {
+    return;
+  }
 
   event.respondWith(
     fetch(request)
@@ -31,6 +54,10 @@ self.addEventListener("fetch", (event) => {
         caches.open(CACHE).then((cache) => cache.put(request, clone));
         return response;
       })
-      .catch(() => caches.match(request).then((cached) => cached || caches.match("/offline.html")))
+      .catch(() =>
+        caches.match(request).then(
+          (cached) => cached || caches.match("/offline.html")
+        )
+      )
   );
 });

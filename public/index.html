@@ -4,15 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#090b10">
-  <meta name="description" content="DUNG NGUYEN PROMPTS — Thư viện prompt AI cho ảnh, video, content và workflow AI.">
+  <meta name="description" content="DUNG NGUYEN PROMPTS — Thư viện prompt AI cho ảnh, video, content, âm nhạc và workflow AI.">
+
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DUNG NGUYEN PROMPTS">
   <meta property="og:title" content="DUNG NGUYEN PROMPTS">
   <meta property="og:description" content="Thư viện prompt AI của DUNG NGUYEN.">
-  <meta property="og:image" content="/icons/og-shareprompt.png">
-  <meta property="og:url" content="/">
-  <link rel="canonical" href="/">
+  <meta property="og:image" content="https://shareprompt.dungnguyen.pp.ua/icons/og-shareprompt.png">
+  <meta property="og:image:alt" content="DUNG NGUYEN PROMPTS">
+  <meta property="og:url" content="https://shareprompt.dungnguyen.pp.ua/">
+  <meta property="og:locale" content="vi_VN">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DUNG NGUYEN PROMPTS">
+  <meta name="twitter:description" content="Thư viện prompt AI của DUNG NGUYEN.">
+  <meta name="twitter:image" content="https://shareprompt.dungnguyen.pp.ua/icons/og-shareprompt.png">
+
+  <link rel="canonical" href="https://shareprompt.dungnguyen.pp.ua/">
   <link rel="manifest" href="/manifest.webmanifest">
-  <title>DUNG NGUYEN PROMPTS</title>
+
+  <title>DUNG NGUYEN PROMPTS — Thư viện Prompt AI</title>
+
   <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
@@ -30,16 +42,23 @@
     <p class="eyebrow">AI PROMPT LIBRARY</p>
     <h1>Kho Prompt của<br><span>DUNG NGUYEN</span></h1>
     <p>Tìm kiếm, sao chép, lưu và chia sẻ prompt AI nhanh chóng cho ảnh, video, nội dung, âm nhạc và nhiều workflow AI khác.</p>
-    <div class="searchbar"><span>⌕</span><input id="search" type="search" placeholder="Tìm prompt, chủ đề, từ khóa..." autocomplete="off"></div>
+    <div class="searchbar">
+      <span>⌕</span>
+      <input id="search" type="search" placeholder="Tìm prompt, chủ đề, từ khóa..." autocomplete="off">
+    </div>
   </section>
 
-  <div id="chips" class="chips"></div>
+  <div id="chips" class="chips" aria-label="Danh mục prompt"></div>
 
   <section>
     <div class="toolbar">
-      <h2>Prompt mới nhất</h2>
+      <div>
+        <h2>Prompt mới nhất</h2>
+        <p id="activeLabel" class="toolbar-sub">9 nội dung mới nhất được ưu tiên hiển thị.</p>
+      </div>
       <span id="count" class="muted-count">0 prompt</span>
     </div>
+
     <div id="viewport" class="viewport">
       <div id="grid" class="grid"></div>
     </div>
@@ -49,7 +68,7 @@
     <div class="footer-grid">
       <section class="footer-card">
         <h3>Giới thiệu</h3>
-        <p>DUNG NGUYEN PROMPTS là thư viện lưu trữ và chia sẻ prompt AI được thiết kế để việc tìm kiếm, quản lý và sử dụng prompt trở nên nhanh chóng và trực quan.</p>
+        <p>DUNG NGUYEN PROMPTS là thư viện lưu trữ, quản lý và chia sẻ prompt AI được thiết kế để việc tìm kiếm, sử dụng và chia sẻ prompt trở nên nhanh chóng và trực quan.</p>
       </section>
       <section class="footer-card">
         <h3>Liên hệ</h3>
@@ -58,11 +77,15 @@
       </section>
       <section class="footer-card">
         <h3>Tiện ích</h3>
-        <p>Prompt Builder, yêu thích, collections trên thiết bị và khả năng cài đặt thư viện như một PWA.</p>
+        <p>Prompt Builder, yêu thích trên thiết bị, Copy link nhanh, chia sẻ prompt và cài đặt thư viện như một PWA.</p>
         <a class="footer-link" href="/builder.html">✨ Mở Prompt Builder</a>
       </section>
     </div>
-    <div class="copyright"><strong>DUNG NGUYEN PROMPTS</strong><br>© 2026 DUNG NGUYEN PROMPTS. Bản quyền ứng dụng, giao diện và hệ thống thuộc về chủ sở hữu ứng dụng.<br>Thiết kế và phát triển cho thư viện Prompt AI của DUNG NGUYEN.</div>
+    <div class="copyright">
+      <strong>DUNG NGUYEN PROMPTS</strong><br>
+      © 2026 DUNG NGUYEN PROMPTS. Bản quyền ứng dụng, giao diện và hệ thống thuộc về chủ sở hữu ứng dụng.<br>
+      Thiết kế và phát triển cho thư viện Prompt AI của DUNG NGUYEN.
+    </div>
   </footer>
 </main>
 
@@ -77,13 +100,23 @@ function saveFavs(v){localStorage.setItem(favKey,JSON.stringify(v))}
 function formatNumber(v){return Number(v||0).toLocaleString("vi-VN")}
 function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function toast(msg,type="success"){const t=$("#toast");t.textContent=msg;t.className=`toast show ${type}`;clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.className="toast",2300)}
-async function copyLink(slug){try{await navigator.clipboard.writeText(new URL(`/prompt/${encodeURIComponent(slug)}`,location.origin).href);toast("Đã sao chép link prompt.")}catch{toast("Không thể sao chép link.","error")}}
-function renderChips(){const el=$("#chips");el.innerHTML=[`<button class="chip ${state.activeCategory===""?"active":""}" data-cat="">Tất cả</button>`,...state.categories.map(c=>`<button class="chip ${state.activeCategory===c.slug?"active":""}" data-cat="${esc(c.slug)}">${esc(c.name)}</button>`)].join("")}
-function render(){const q=$("#search").value.trim().toLowerCase();const list=state.prompts.filter(p=>{const text=[p.title,p.description,p.content,p.tags,p.category_name].join(" ").toLowerCase();return (!q||text.includes(q))&&(!state.activeCategory||p.category_slug===state.activeCategory)});$("#count").textContent=`${formatNumber(list.length)} prompt`;const vp=$("#viewport");vp.classList.toggle("has-overflow",list.length>9);if(!list.length){$("#grid").innerHTML='<div class="empty" style="grid-column:1/-1">Không tìm thấy prompt phù hợp.</div>';return}const saved=favs();$("#grid").innerHTML=list.map(p=>`<article class="card"><div><span class="badge">${esc(p.category_name||"PROMPT")}</span>${Number(p.featured)===1?'<span class="badge featured" style="margin-left:6px">⭐ Featured</span>':''}<h3>${esc(p.title)}</h3><p>${esc(p.description||"")}</p></div><div><div class="meta"><span>👁 ${formatNumber(p.views)}</span><span>⧉ ${formatNumber(p.copies)}</span></div><div class="actions"><a class="btn primary" href="/prompt/${encodeURIComponent(p.slug)}">Xem nội dung</a><button class="btn ${saved.includes(Number(p.id))?"saved":""}" data-fav="${p.id}" type="button">${saved.includes(Number(p.id))?"★ Đã lưu":"☆ Lưu"}</button><button class="btn" data-copy="${esc(p.slug)}" type="button">📎 Link</button></div></div></article>`).join("")}
+async function copyText(text){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text);const a=document.createElement("textarea");a.value=text;a.style.position="fixed";a.style.left="-9999px";document.body.appendChild(a);a.select();document.execCommand("copy");a.remove()}
+async function copyLink(slug){try{await copyText(new URL(`/prompt/${encodeURIComponent(slug)}`,location.origin).href);toast("Đã sao chép link prompt.")}catch{toast("Không thể sao chép link.","error")}}
+function renderChips(){const el=$("#chips");const total=state.prompts.length;el.innerHTML=[`<button class="chip ${state.activeCategory===""?"active":""}" data-cat="">Tất cả <span class="chip-count">${formatNumber(total)}</span></button>`,...state.categories.map(c=>`<button class="chip ${state.activeCategory===c.slug?"active":""}" data-cat="${esc(c.slug)}">${esc(c.name)} <span class="chip-count">${formatNumber(c.prompt_count)}</span></button>`)].join("")}
+function render(){
+  const q=$("#search").value.trim().toLowerCase();
+  const list=state.prompts.filter(p=>{const text=[p.title,p.description,p.content,p.tags,p.category_name].join(" ").toLowerCase();return(!q||text.includes(q))&&(!state.activeCategory||p.category_slug===state.activeCategory)});
+  $("#count").textContent=`${formatNumber(list.length)} prompt`;
+  $("#activeLabel").textContent=q||state.activeCategory?"Kết quả theo bộ lọc hiện tại.":"9 nội dung mới nhất được ưu tiên hiển thị. Từ nội dung thứ 10 sẽ có thanh cuộn.";
+  const vp=$("#viewport");vp.classList.toggle("has-overflow",list.length>9);
+  if(!list.length){$("#grid").innerHTML='<div class="empty" style="grid-column:1/-1">Không tìm thấy prompt phù hợp.</div>';return}
+  const saved=favs();
+  $("#grid").innerHTML=list.map(p=>`<article class="card"><div><span class="badge">${esc(p.category_name||"PROMPT")}</span>${Number(p.featured)===1?'<span class="badge featured" style="margin-left:6px">⭐ Featured</span>':''}<h3>${esc(p.title)}</h3><p>${esc(p.description||"")}</p></div><div><div class="meta"><span>👁 ${formatNumber(p.views)}</span><span>⧉ ${formatNumber(p.copies)}</span><span>🗓 ${esc(String(p.created_at||"").slice(0,10))}</span></div><div class="actions"><a class="btn primary" href="/prompt/${encodeURIComponent(p.slug)}">Xem nội dung</a><button class="btn ${saved.includes(Number(p.id))?"saved":""}" data-fav="${p.id}" type="button">${saved.includes(Number(p.id))?"★ Đã lưu":"☆ Lưu"}</button><button class="btn" data-copy="${esc(p.slug)}" type="button">📎 Copy link</button></div></div></article>`).join("")
+}
 $("#search").addEventListener("input",render);
 $("#chips").addEventListener("click",e=>{const b=e.target.closest("[data-cat]");if(!b)return;state.activeCategory=b.dataset.cat;renderChips();render()});
-$("#grid").addEventListener("click",e=>{const fav=e.target.closest("[data-fav]");if(fav){const id=Number(fav.dataset.fav);const v=favs();const i=v.indexOf(id);if(i>=0)v.splice(i,1);else v.push(id);saveFavs(v);render();toast(i>=0?"Đã bỏ khỏi mục đã lưu.":"Đã lưu prompt vào thiết bị.");return}const cp=e.target.closest("[data-copy]");if(cp)copyLink(cp.dataset.copy)});
-(async()=>{try{const [p,c]=await Promise.all([fetch("/api/prompts?limit=500",{cache:"no-store"}),fetch("/api/categories",{cache:"no-store"})]);const pd=await p.json(),cd=await c.json();state.prompts=pd.prompts||[];state.categories=cd.categories||[];state.prompts.sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at)));renderChips();render()}catch(e){$("#grid").innerHTML='<div class="empty" style="grid-column:1/-1">Không thể tải dữ liệu prompt.</div>'}})();
+$("#grid").addEventListener("click",async e=>{const fav=e.target.closest("[data-fav]");if(fav){const id=Number(fav.dataset.fav);const v=favs();const i=v.indexOf(id);if(i>=0)v.splice(i,1);else v.push(id);saveFavs(v);render();toast(i>=0?"Đã bỏ khỏi mục đã lưu.":"Đã lưu prompt vào thiết bị.");return}const cp=e.target.closest("[data-copy]");if(cp)await copyLink(cp.dataset.copy)});
+(async()=>{try{const [p,c]=await Promise.all([fetch("/api/prompts?limit=500",{cache:"no-store"}),fetch("/api/categories",{cache:"no-store"})]);const pd=await p.json(),cd=await c.json();if(!p.ok)throw new Error(pd.error||"Không tải được prompt");if(!c.ok)throw new Error(cd.error||"Không tải được category");state.prompts=pd.prompts||[];state.categories=cd.categories||[];renderChips();render()}catch(e){$("#grid").innerHTML=`<div class="empty" style="grid-column:1/-1">Không thể tải dữ liệu prompt.<br><br>${esc(e.message)}</div>`}})();
 </script>
 </body>
 </html>

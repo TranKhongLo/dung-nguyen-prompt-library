@@ -1,34 +1,126 @@
 <!doctype html>
 <html lang="vi">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#090b10">
-<title>__PROMPT_TITLE__</title>
-<meta name="description" content="__PROMPT_DESCRIPTION__">
-<link rel="canonical" href="__PROMPT_CANONICAL__">
-<meta property="og:type" content="article"><meta property="og:title" content="__PROMPT_TITLE__"><meta property="og:description" content="__PROMPT_DESCRIPTION__"><meta property="og:url" content="__PROMPT_CANONICAL__"><meta property="og:image" content="__PROMPT_OG_IMAGE__">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="__PROMPT_TITLE__"><meta name="twitter:description" content="__PROMPT_DESCRIPTION__"><meta name="twitter:image" content="__PROMPT_OG_IMAGE__">
-<link rel="manifest" href="/manifest.webmanifest"><link rel="stylesheet" href="/assets/site.css">
-<style>
-.page{width:min(1080px,calc(100% - 28px));margin:0 auto;padding:28px 0 75px}.hero-detail{padding:30px 23px;border:1px solid var(--border);border-radius:24px;background:radial-gradient(circle at 100% 0,rgba(124,140,255,.16),transparent 34%),var(--panel)}.hero-detail h1{margin:0;font-size:clamp(32px,6vw,58px);line-height:1.04;letter-spacing:-1px}.desc{margin:16px 0 0;color:var(--muted);font-size:16px;line-height:1.65}.badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}.stats{display:flex;flex-wrap:wrap;gap:15px;margin-top:18px;color:#7f899d;font-size:13px}.content-card{margin-top:18px;overflow:hidden;border:1px solid var(--border);border-radius:21px;background:var(--panel)}.content-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 17px;border-bottom:1px solid var(--border2)}.content-head h2{margin:0;font-size:18px}.actions{display:flex;flex-wrap:wrap;gap:7px}.content{padding:19px}.content pre{margin:0;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;color:#e6eaf2;font:13px/1.75 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.info-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}.info-card{min-height:100px;padding:17px;border:1px solid var(--border);border-radius:18px;background:var(--panel)}.label{color:#7d889b;font-size:10px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}.value{margin-top:8px;color:#eef1f7;font-size:14px;font-weight:750}.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.tag{padding:5px 9px;border:1px solid #293244;border-radius:999px;color:#b4becf;background:#0d121a;font-size:11px}.about-card{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:18px;margin-top:22px;padding:23px;border:1px solid var(--border);border-radius:22px;background:radial-gradient(circle at 100% 0,rgba(124,140,255,.12),transparent 35%),var(--panel)}.avatar{width:70px;height:70px;display:grid;place-items:center;border-radius:20px;color:#090b10;background:linear-gradient(135deg,var(--primary2),var(--primary));font-size:21px;font-weight:950}.about-title{margin:0;font-size:23px}.about-text{margin:8px 0 0;color:#9ba5b8;font-size:13px;line-height:1.7}.contact{display:inline-flex;margin-top:13px;min-height:38px;align-items:center;padding:0 12px;border:1px solid #2d3850;border-radius:10px;color:#bec8ff;background:#0d121a;font-size:12px;font-weight:800}.state{min-height:400px;display:grid;place-items:center;text-align:center;padding:30px;border:1px solid var(--border);border-radius:22px;background:var(--panel)}.spinner{width:40px;height:40px;margin:0 auto 15px;border:3px solid #293244;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:900px){.info-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){.page{width:min(100% - 20px,700px)}.content-head{align-items:flex-start;flex-direction:column}.actions{width:100%}.actions .btn{flex:1}.info-grid{grid-template-columns:1fr}.about-card{grid-template-columns:1fr;text-align:center}.avatar{margin:0 auto}.contact{width:100%;justify-content:center}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090b10">
+  <meta name="robots" content="index,follow">
+
+  <title>__PROMPT_TITLE__</title>
+  <meta name="description" content="__PROMPT_DESCRIPTION__">
+  <link rel="canonical" href="__PROMPT_CANONICAL__">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="DUNG NGUYEN PROMPTS">
+  <meta property="og:title" content="__PROMPT_TITLE__">
+  <meta property="og:description" content="__PROMPT_DESCRIPTION__">
+  <meta property="og:url" content="__PROMPT_CANONICAL__">
+  <meta property="og:image" content="__PROMPT_OG_IMAGE__">
+  <meta property="og:image:alt" content="__PROMPT_TITLE__">
+  <meta property="og:locale" content="vi_VN">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="__PROMPT_TITLE__">
+  <meta name="twitter:description" content="__PROMPT_DESCRIPTION__">
+  <meta name="twitter:image" content="__PROMPT_OG_IMAGE__">
+
+  <script type="application/ld+json">__PROMPT_JSONLD__</script>
+
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/assets/site.css">
+
+  <style>
+    .detail-page{max-width:1080px;margin:0 auto;padding:28px 16px 80px}.detail-actions{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}.detail-action{min-height:41px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 13px;border:1px solid var(--border);border-radius:11px;background:#111722;color:#edf1f7;font-size:13px;font-weight:750}.detail-action.primary{border-color:transparent;background:linear-gradient(135deg,var(--primary2),var(--primary));color:#090b10}.detail-hero{position:relative;overflow:hidden;padding:34px 30px;border:1px solid var(--border);border-radius:24px;background:radial-gradient(circle at 100% 0,rgba(124,140,255,.16),transparent 34%),var(--panel);box-shadow:0 28px 75px rgba(0,0,0,.2)}.detail-hero h1{position:relative;z-index:1;margin:0;font-size:clamp(31px,6vw,58px);line-height:1.05;letter-spacing:-1px}.detail-hero .desc{position:relative;z-index:1;margin:16px 0 0;color:var(--muted);font-size:16px;line-height:1.65}.detail-badges{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.detail-badge{display:inline-flex;align-items:center;min-height:31px;padding:0 11px;border:1px solid var(--border);border-radius:999px;background:#0d121a;color:#cfd6e3;font-size:12px;font-weight:750}.detail-badge.category{color:#bbc4ff;border-color:rgba(124,140,255,.26);background:rgba(124,140,255,.09)}.detail-badge.featured{color:#f8d98a;border-color:rgba(245,196,94,.24);background:rgba(245,196,94,.08)}.detail-stats{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:17px;margin-top:20px;color:#7e899d;font-size:13px}.detail-content-card{margin-top:18px;overflow:hidden;border:1px solid var(--border);border-radius:21px;background:var(--panel)}.detail-content-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 17px;border-bottom:1px solid var(--border2)}.detail-content-head h2{margin:0;font-size:18px}.content-actions{display:flex;flex-wrap:wrap;gap:7px;justify-content:flex-end}.content-actions .btn{min-height:41px;font-size:12px}.prompt-body{padding:20px}.prompt-body pre{margin:0;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;color:#e7ebf3;font:13px/1.75 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.detail-info{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}.detail-info-card{min-height:102px;padding:17px;border:1px solid var(--border);border-radius:18px;background:var(--panel)}.detail-info-label{color:#7d889b;font-size:10px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}.detail-info-value{margin-top:8px;color:#eef1f7;font-size:14px;font-weight:750}.detail-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.detail-tag{padding:5px 9px;border:1px solid #293244;border-radius:999px;color:#b4becf;background:#0d121a;font-size:11px}.about-card{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:18px;margin-top:22px;padding:23px;border:1px solid var(--border);border-radius:22px;background:radial-gradient(circle at 100% 0,rgba(124,140,255,.12),transparent 35%),var(--panel)}.about-avatar{width:70px;height:70px;display:grid;place-items:center;border-radius:20px;color:#090b10;background:linear-gradient(135deg,var(--primary2),var(--primary));font-size:21px;font-weight:950}.about-title{margin:0;font-size:23px}.about-text{margin:8px 0 0;color:#9ba5b8;font-size:13px;line-height:1.7}.contact{display:inline-flex;margin-top:13px;min-height:38px;align-items:center;padding:0 12px;border:1px solid #2d3850;border-radius:10px;color:#bec8ff;background:#0d121a;font-size:12px;font-weight:800}.detail-state{min-height:410px;display:grid;place-items:center;text-align:center;padding:30px;border:1px solid var(--border);border-radius:22px;background:var(--panel)}.spinner{width:40px;height:40px;margin:0 auto 15px;border:3px solid #293244;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:900px){.detail-info{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){.detail-page{width:min(100% - 20px,700px);padding-top:22px}.detail-actions{align-items:stretch}.detail-actions>div{width:100%;display:flex;gap:7px}.detail-actions>div .detail-action{flex:1}.detail-hero{padding:25px 19px}.detail-content-head{align-items:flex-start;flex-direction:column}.content-actions{width:100%;justify-content:stretch}.content-actions .btn{flex:1}.detail-info{grid-template-columns:1fr}.about-card{grid-template-columns:1fr;text-align:center}.about-avatar{margin:0 auto}.contact{width:100%;justify-content:center}}
+  </style>
 </head>
 <body>
-<header class="topbar"><a class="brand" href="/">DUNG NGUYEN <span>PROMPTS</span></a><div class="header-actions"><a class="link-btn" href="/">← Thư viện</a><a class="link-btn" href="/saved.html">☆ Đã lưu</a></div></header>
-<main class="page">
-<div id="loading" class="state"><div><div class="spinner"></div>Đang tải prompt...</div></div>
-<div id="error" class="state" style="display:none"><div><h2>Không tìm thấy prompt</h2><p id="errorText" style="color:#929daf">Prompt không tồn tại.</p><a class="link-btn" href="/">← Về thư viện</a></div></div>
-<div id="detail" style="display:none">
-<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px"><a class="link-btn" href="/">← Quay lại thư viện</a><div class="actions"><button id="copyLinkTop" class="btn" type="button">📎 Copy link</button><button id="shareTop" class="btn" type="button">↗ Chia sẻ</button></div></div>
-<section class="hero-detail"><p class="eyebrow">AI PROMPT</p><h1 id="title"></h1><p id="desc" class="desc"></p><div id="badges" class="badges"></div><div class="stats"><span id="views">👁 0 lượt xem</span><span id="copies">⧉ 0 lượt sao chép</span><span id="created">🗓 —</span></div></section>
-<section class="content-card"><div class="content-head"><h2>Nội dung Prompt</h2><div class="actions"><button id="copyContent" class="btn primary" type="button">📋 Sao chép nội dung</button><button id="copyLink" class="btn" type="button">📎 Copy link</button><button id="share" class="btn" type="button">↗ Chia sẻ</button></div></div><div class="content"><pre id="content"></pre></div></section>
-<section class="info-grid"><div class="info-card"><div class="label">Danh mục</div><div id="category" class="value">—</div></div><div class="info-card"><div class="label">Trạng thái</div><div id="status" class="value">—</div></div><div class="info-card"><div class="label">ID Prompt</div><div id="id" class="value">—</div></div><div class="info-card"><div class="label">Tags</div><div id="tags" class="tags"></div></div></section>
-<section class="about-card"><div class="avatar">DN</div><div><p class="eyebrow" style="margin-bottom:6px">NGƯỜI XÂY DỰNG THƯ VIỆN</p><h2 class="about-title">DUNG NGUYEN</h2><p class="about-text">DUNG NGUYEN PROMPTS được xây dựng để lưu trữ, quản lý và chia sẻ các prompt AI một cách trực quan, nhanh chóng và thuận tiện trên máy tính và điện thoại.</p><a class="contact" href="https://www.facebook.com/dungnguyenvl" target="_blank" rel="noopener noreferrer">↗ Facebook · @dungnguyenvl</a></div></section>
-<footer class="footer"><div style="text-align:center"><strong>DUNG NGUYEN PROMPTS</strong><br>© 2026 DUNG NGUYEN PROMPTS. Bản quyền ứng dụng, giao diện và hệ thống thuộc về chủ sở hữu ứng dụng.<br>Thiết kế và phát triển cho thư viện Prompt AI.</div></footer>
-</div>
-</main><div id="toast" class="toast"></div>
+<header class="topbar">
+  <a class="brand" href="/">DUNG NGUYEN <span>PROMPTS</span></a>
+  <div class="header-actions">
+    <a class="link-btn" href="/">← Thư viện</a>
+    <a class="link-btn" href="/saved.html">☆ Đã lưu</a>
+  </div>
+</header>
+
+<main class="detail-page">
+  <section id="loading" class="detail-state"><div><div class="spinner"></div>Đang tải prompt...</div></section>
+  <section id="error" class="detail-state" style="display:none"><div><h2>Không tìm thấy prompt</h2><p id="errorText" style="color:#929daf">Prompt không tồn tại.</p><a class="detail-action" href="/">← Về thư viện</a></div></section>
+
+  <div id="detail" style="display:none">
+    <div class="detail-actions">
+      <a class="detail-action" href="/">← Quay lại thư viện</a>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        <button id="copyLinkTop" class="detail-action" type="button">📎 Copy link</button>
+        <button id="shareTop" class="detail-action" type="button">↗ Chia sẻ</button>
+      </div>
+    </div>
+
+    <section class="detail-hero">
+      <p class="eyebrow">AI PROMPT</p>
+      <h1 id="title"></h1>
+      <p id="desc" class="desc"></p>
+      <div id="badges" class="detail-badges"></div>
+      <div class="detail-stats">
+        <span id="views">👁 0 lượt xem</span>
+        <span id="copies">⧉ 0 lượt sao chép</span>
+        <span id="created">🗓 —</span>
+      </div>
+    </section>
+
+    <section class="detail-content-card">
+      <div class="detail-content-head">
+        <h2>Nội dung Prompt</h2>
+        <div class="content-actions">
+          <button id="copyContent" class="btn primary" type="button">📋 Sao chép nội dung</button>
+          <button id="copyLink" class="btn" type="button">📎 Copy link</button>
+          <button id="share" class="btn" type="button">↗ Chia sẻ</button>
+        </div>
+      </div>
+      <div class="prompt-body"><pre id="content"></pre></div>
+    </section>
+
+    <section class="detail-info">
+      <div class="detail-info-card"><div class="detail-info-label">Danh mục</div><div id="category" class="detail-info-value">—</div></div>
+      <div class="detail-info-card"><div class="detail-info-label">Trạng thái</div><div id="status" class="detail-info-value">—</div></div>
+      <div class="detail-info-card"><div class="detail-info-label">ID Prompt</div><div id="id" class="detail-info-value">—</div></div>
+      <div class="detail-info-card"><div class="detail-info-label">Tags</div><div id="tags" class="detail-tags"></div></div>
+    </section>
+
+    <section class="about-card">
+      <div class="about-avatar">DN</div>
+      <div>
+        <p class="eyebrow" style="margin-bottom:6px">NGƯỜI XÂY DỰNG THƯ VIỆN</p>
+        <h2 class="about-title">DUNG NGUYEN</h2>
+        <p class="about-text">DUNG NGUYEN PROMPTS được xây dựng để lưu trữ, quản lý và chia sẻ các prompt AI một cách trực quan, nhanh chóng và thuận tiện trên máy tính và điện thoại.</p>
+        <a class="contact" href="https://www.facebook.com/dungnguyenvl" target="_blank" rel="noopener noreferrer">↗ Facebook · @dungnguyenvl</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="copyright"><strong>DUNG NGUYEN PROMPTS</strong><br>© 2026 DUNG NGUYEN PROMPTS. Bản quyền ứng dụng, giao diện và hệ thống thuộc về chủ sở hữu ứng dụng.<br>Thiết kế và phát triển cho thư viện Prompt AI của DUNG NGUYEN.</div>
+    </footer>
+  </div>
+</main>
+
+<div id="toast" class="toast"></div>
 <script src="/assets/site.js"></script>
 <script>
-const slugFromTemplate="__PROMPT_SLUG__";const q=new URLSearchParams(location.search);const pathMatch=location.pathname.match(/^\/prompt\/([^/]+)\/?$/);const pathSlug=pathMatch?decodeURIComponent(pathMatch[1]):"";const key=slugFromTemplate&&slugFromTemplate!=="__PROMPT_SLUG__"?slugFromTemplate:(q.get("id")||q.get("slug")||pathSlug);let prompt=null;const $=s=>document.querySelector(s);const num=v=>Number(v||0).toLocaleString("vi-VN");const date=v=>{if(!v)return"—";const d=new Date(String(v).replace(" ","T"));return Number.isNaN(d.getTime())?v:d.toLocaleDateString("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric"})};const esc=v=>String(v??"");const showToast=(m,t="success")=>{const x=$("#toast");x.textContent=m;x.className=`toast show ${t}`;clearTimeout(showToast.t);showToast.t=setTimeout(()=>x.className="toast",2200)};async function copyText(t){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(t);const a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.left="-9999px";document.body.appendChild(a);a.select();document.execCommand("copy");a.remove()};async function copyLink(){try{await copyText(location.href);showToast("Đã sao chép link prompt.")}catch{showToast("Không thể sao chép link.","error")}}async function share(){try{if(navigator.share){await navigator.share({title:prompt?.title||"DUNG NGUYEN PROMPTS",text:prompt?.description||"",url:location.href});return}await copyLink()}catch(e){if(e?.name!=="AbortError")showToast("Không thể chia sẻ.","error")}}async function copyContent(){if(!prompt)return;try{await copyText(prompt.content||"");await fetch(`/api/prompts/${encodeURIComponent(prompt.id)}/copy`,{method:"POST"});prompt.copies=Number(prompt.copies||0)+1;$("#copies").textContent=`⧉ ${num(prompt.copies)} lượt sao chép`;showToast("Đã sao chép toàn bộ prompt.")}catch{showToast("Không thể sao chép prompt.","error")}}function render(){document.title=`${prompt.title} · DUNG NGUYEN PROMPTS`+"";$("#title").textContent=prompt.title||"";$("#desc").textContent=prompt.description||"";$("#content").textContent=prompt.content||"";$("#views").textContent=`👁 ${num(prompt.views)} lượt xem`;$("#copies").textContent=`⧉ ${num(prompt.copies)} lượt sao chép`;$("#created").textContent=`🗓 ${date(prompt.created_at)}`;$("#category").textContent=prompt.category_name||"Chưa phân loại";$("#status").textContent=Number(prompt.published)===1?"🟢 Đang xuất bản":"🟡 Nháp";$("#id").textContent=`#${prompt.id}`;$("#badges").innerHTML=`${prompt.category_name?`<span class="badge category">📁 ${esc(prompt.category_name)}</span>`:""}${Number(prompt.featured)===1?'<span class="badge featured">⭐ Featured</span>':''}${Number(prompt.published)===1?'<span class="badge">● Published</span>':''}`;const tags=$("#tags");tags.innerHTML="";String(prompt.tags||"").split(",").map(s=>s.trim()).filter(Boolean).forEach(t=>{const x=document.createElement("span");x.className="tag";x.textContent=t;tags.appendChild(x)})}async function load(){try{const r=await fetch(`/api/prompts/${encodeURIComponent(key)}`,{cache:"no-store"});const d=await r.json();if(!r.ok||!d.prompt)throw new Error(d.error||"Không tìm thấy prompt.");prompt=d.prompt;render();$("#loading").style.display="none";$("#detail").style.display="block";try{await fetch(`/api/prompts/${encodeURIComponent(prompt.id)}/view`,{method:"POST"});prompt.views=Number(prompt.views||0)+1;$("#views").textContent=`👁 ${num(prompt.views)} lượt xem`}catch{}}catch(e){$("#loading").style.display="none";$("#error").style.display="grid";$("#errorText").textContent=e.message||"Không thể tải prompt."}}["#copyLinkTop","#copyLink"].forEach(s=>$(s).addEventListener("click",copyLink));["#shareTop","#share"].forEach(s=>$(s).addEventListener("click",share));$("#copyContent").addEventListener("click",copyContent);load();
+const q=new URLSearchParams(location.search);
+const templateSlug="__PROMPT_SLUG__";
+const pathMatch=location.pathname.match(/^\/prompt\/([^/]+)\/?$/);
+const key=templateSlug&&templateSlug!=="__PROMPT_SLUG__"?templateSlug:(q.get("id")||q.get("slug")||(pathMatch?decodeURIComponent(pathMatch[1]):""));
+let prompt=null;
+const $=s=>document.querySelector(s);
+const num=v=>Number(v||0).toLocaleString("vi-VN");
+const date=v=>{if(!v)return"—";const d=new Date(String(v).replace(" ","T"));return Number.isNaN(d.getTime())?v:d.toLocaleDateString("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric"})};
+function toast(msg,type="success"){const t=$("#toast");t.textContent=msg;t.className=`toast show ${type}`;clearTimeout(toast.t);toast.t=setTimeout(()=>t.className="toast",2200)}
+async function copyText(text){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text);const a=document.createElement("textarea");a.value=text;a.style.position="fixed";a.style.left="-9999px";document.body.appendChild(a);a.select();document.execCommand("copy");a.remove()}
+async function copyLink(){try{await copyText(location.href);toast("Đã sao chép link prompt.")}catch{toast("Không thể sao chép link.","error")}}
+async function share(){try{if(navigator.share){await navigator.share({title:prompt?.title||"DUNG NGUYEN PROMPTS",text:prompt?.description||"",url:location.href});return}await copyLink()}catch(e){if(e?.name!=="AbortError")toast("Không thể chia sẻ.","error")}}
+async function copyContent(){if(!prompt)return;try{await copyText(prompt.content||"");await fetch(`/api/prompts/${encodeURIComponent(prompt.id)}/copy`,{method:"POST"});prompt.copies=Number(prompt.copies||0)+1;$("#copies").textContent=`⧉ ${num(prompt.copies)} lượt sao chép`;toast("Đã sao chép toàn bộ prompt.")}catch{toast("Không thể sao chép prompt.","error")}}
+function render(){document.title=`${prompt.title} · DUNG NGUYEN PROMPTS`;$("#title").textContent=prompt.title||"";$("#desc").textContent=prompt.description||"";$("#content").textContent=prompt.content||"";$("#views").textContent=`👁 ${num(prompt.views)} lượt xem`;$("#copies").textContent=`⧉ ${num(prompt.copies)} lượt sao chép`;$("#created").textContent=`🗓 ${date(prompt.created_at)}`;$("#category").textContent=prompt.category_name||"Chưa phân loại";$("#status").textContent=Number(prompt.published)===1?"🟢 Đang xuất bản":"🟡 Nháp";$("#id").textContent=`#${prompt.id}`;$("#badges").innerHTML=`${prompt.category_name?`<span class="detail-badge category">📁 ${prompt.category_name}</span>`:""}${Number(prompt.featured)===1?'<span class="detail-badge featured">⭐ Featured</span>':''}${Number(prompt.published)===1?'<span class="detail-badge">● Published</span>':''}`;const tags=$("#tags");tags.innerHTML="";String(prompt.tags||"").split(",").map(s=>s.trim()).filter(Boolean).forEach(t=>{const x=document.createElement("span");x.className="detail-tag";x.textContent=t;tags.appendChild(x)})}
+async function load(){if(!key){$("#loading").style.display="none";$("#error").style.display="grid";$("#errorText").textContent="Link prompt không hợp lệ.";return}try{const r=await fetch(`/api/prompts/${encodeURIComponent(key)}`,{cache:"no-store"});const d=await r.json();if(!r.ok||!d.prompt)throw new Error(d.error||"Không tìm thấy prompt.");prompt=d.prompt;render();$("#loading").style.display="none";$("#detail").style.display="block";try{await fetch(`/api/prompts/${encodeURIComponent(prompt.id)}/view`,{method:"POST"});prompt.views=Number(prompt.views||0)+1;$("#views").textContent=`👁 ${num(prompt.views)} lượt xem`}catch{}}catch(e){$("#loading").style.display="none";$("#error").style.display="grid";$("#errorText").textContent=e.message||"Không thể tải prompt."}}
+$("#copyLinkTop").addEventListener("click",copyLink);$("#copyLink").addEventListener("click",copyLink);$("#shareTop").addEventListener("click",share);$("#share").addEventListener("click",share);$("#copyContent").addEventListener("click",copyContent);load();
 </script>
 </body>
 </html>
