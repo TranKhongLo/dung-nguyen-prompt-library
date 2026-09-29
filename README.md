@@ -36,3 +36,12 @@ Legacy V1.3 files can remain until a later cleanup commit: `public/assets/styles
 ## V1.5 Multi-Provider API Keys
 
 AI Builder now supports Gemini, OpenAI, Anthropic Claude, OpenRouter, Groq and DeepSeek using session-only API keys. Keys are accepted per request and are not written to D1, GitHub, cookies, localStorage, sessionStorage, IndexedDB or backup files.
+
+
+## V1.5 Multi-Provider Fix v2
+
+- Gemini model dropdown includes Gemini 3.8 Flash, 3.7 Flash, 3.6 Flash, 3.5 Flash, 3.5 Flash-Lite, and 3.1 Flash-Lite.
+- Provider test now reports HTTP status, error code, model, and truncated upstream detail.
+- 400/401/402/403/404/429/500/503 are mapped to actionable Vietnamese messages.
+- Model can be selected from the list or entered as a custom Model ID.
+- API keys remain session-only in memory and are not stored in localStorage, sessionStorage, IndexedDB, D1, cookies, GitHub, or backups.

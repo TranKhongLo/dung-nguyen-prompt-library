@@ -148,37 +148,50 @@ const PROVIDER_CONFIG = {
     label: "Google Gemini",
     endpoint: "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
     kind: "gemini",
-    defaultModel: "gemini-3.8-flash"
+    defaultModel: "gemini-3.8-flash",
+    models: [
+      { id: "gemini-3.8-flash", label: "Gemini 3.8 Flash · Mặc định" },
+      { id: "gemini-3.7-flash", label: "Gemini 3.7 Flash" },
+      { id: "gemini-3.6-flash", label: "Gemini 3.6 Flash" },
+      { id: "gemini-3.5-flash", label: "Gemini 3.5 Flash" },
+      { id: "gemini-3.5-flash-lite", label: "Gemini 3.5 Flash-Lite" },
+      { id: "gemini-3.1-flash-lite", label: "Gemini 3.1 Flash-Lite" }
+    ]
   },
   openai: {
     label: "OpenAI",
     endpoint: "https://api.openai.com/v1/chat/completions",
     kind: "openai",
-    defaultModel: "gpt-5"
+    defaultModel: "gpt-5",
+    models: [{ id: "gpt-5", label: "gpt-5 · Mặc định" }]
   },
   anthropic: {
     label: "Anthropic Claude",
     endpoint: "https://api.anthropic.com/v1/messages",
     kind: "anthropic",
-    defaultModel: "claude-sonnet-4"
+    defaultModel: "claude-sonnet-4",
+    models: [{ id: "claude-sonnet-4", label: "claude-sonnet-4 · Mặc định" }]
   },
   openrouter: {
     label: "OpenRouter",
     endpoint: "https://openrouter.ai/api/v1/chat/completions",
     kind: "openai-compatible",
-    defaultModel: "openai/gpt-5"
+    defaultModel: "openai/gpt-5",
+    models: [{ id: "openai/gpt-5", label: "openai/gpt-5 · Mặc định" }]
   },
   groq: {
     label: "Groq",
     endpoint: "https://api.groq.com/openai/v1/chat/completions",
     kind: "openai-compatible",
-    defaultModel: "openai/gpt-oss-20b"
+    defaultModel: "openai/gpt-oss-20b",
+    models: [{ id: "openai/gpt-oss-20b", label: "openai/gpt-oss-20b · Mặc định" }]
   },
   deepseek: {
     label: "DeepSeek",
     endpoint: "https://api.deepseek.com/chat/completions",
     kind: "openai-compatible",
-    defaultModel: "deepseek-flash"
+    defaultModel: "deepseek-flash",
+    models: [{ id: "deepseek-flash", label: "deepseek-flash · Mặc định" }]
   }
 };
 
@@ -259,10 +272,13 @@ async function generateWithSessionProvider(provider, apiKey, model, input, optio
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    const error = new Error("Nhà cung cấp AI trả về lỗi. Hãy kiểm tra API key, model hoặc quota.");
+    const error = new Error(String(data?.error?.message || data?.message || "Nhà cung cấp AI trả về lỗi.").slice(0, 400));
     error.status = response.status;
     error.provider = provider;
-    error.upstream = String(data?.error?.message || data?.message || "").slice(0, 240);
+    error.model = finalModel;
+    error.upstream = String(data?.error?.message || data?.message || "").slice(0, 400);
+    error.upstreamCode = String(data?.error?.code || data?.code || "").slice(0, 120);
+    error.upstreamType = String(data?.error?.type || data?.type || "").slice(0, 120);
     throw error;
   }
 
@@ -1011,12 +1027,12 @@ export default {
         ok: true,
         app: "DUNG NGUYEN PROMPTS",
         database: "connected",
-        version: "1.5-multiprovider"
+        version: "1.5-multiprovider-v2"
       });
     }
 
     if (path === "/api/ai/status" && method === "GET") {
-      return json({configured:Boolean(String(env.GEMINI_API_KEY||"").trim()),model:String(env.GEMINI_MODEL||"gemini-3.8-flash")});
+      return json({configured:Boolean(String(env.GEMINI_API_KEY||"").trim()),model:String(env.GEMINI_MODEL||"gemini-3.8-flash"),models:PROVIDER_CONFIG.gemini.models});
     }
 
     if (path === "/api/ai/providers" && method === "GET") {
@@ -1024,7 +1040,8 @@ export default {
         providers: Object.entries(PROVIDER_CONFIG).map(([id, config]) => ({
           id,
           label: config.label,
-          defaultModel: config.defaultModel
+          defaultModel: config.defaultModel,
+          models: config.models || []
         }))
       });
     }
@@ -1058,14 +1075,19 @@ export default {
       } catch (error) {
         const status = Number(error?.status || 500);
         const publicStatus = status >= 400 && status < 600 ? status : 500;
-        return json({
-          error: publicStatus === 401 || publicStatus === 403
-            ? "API key không hợp lệ hoặc không có quyền dùng model hiện tại."
-            : publicStatus === 429
-              ? "Nhà cung cấp AI đang giới hạn quota. Vui lòng thử lại sau."
-              : "Không thể kết nối nhà cung cấp AI.",
-          code: publicStatus === 429 ? "AI_QUOTA" : "AI_PROVIDER_ERROR"
-        }, publicStatus);
+        const providerName = String(error?.provider || body?.provider || "ai");
+        const modelName = String(error?.model || body?.model || "");
+        let message = "Không thể kết nối nhà cung cấp AI.";
+        let code = "AI_PROVIDER_ERROR";
+        if (publicStatus === 400) { message = "Yêu cầu AI không hợp lệ. Hãy kiểm tra model và các tham số."; code = "AI_BAD_REQUEST"; }
+        else if (publicStatus === 401) { message = "API key không hợp lệ, thiếu hoặc đã hết hạn."; code = "AI_AUTHENTICATION"; }
+        else if (publicStatus === 402) { message = "Tài khoản AI cần thanh toán hoặc đã hết số dư."; code = "AI_PAYMENT_REQUIRED"; }
+        else if (publicStatus === 403) { message = "API key không có quyền dùng tài nguyên hoặc model này."; code = "AI_PERMISSION_DENIED"; }
+        else if (publicStatus === 404) { message = `Không tìm thấy model hoặc endpoint. Kiểm tra Model ID: ${modelName || "(trống)"}.`; code = "AI_MODEL_NOT_FOUND"; }
+        else if (publicStatus === 429) { message = "Bạn đã vượt giới hạn rate/quota. Hãy chờ rồi thử lại."; code = "AI_QUOTA_OR_RATE_LIMIT"; }
+        else if (publicStatus === 500) { message = `Nhà cung cấp ${providerName} đang gặp lỗi máy chủ.`; code = "AI_SERVER_ERROR"; }
+        else if (publicStatus === 503) { message = `Nhà cung cấp ${providerName} đang tạm thời quá tải hoặc không khả dụng.`; code = "AI_SERVICE_UNAVAILABLE"; }
+        return json({ error: message, code, status: publicStatus, provider: providerName, model: modelName, upstreamCode: String(error?.upstreamCode || "").slice(0, 120), upstreamType: String(error?.upstreamType || "").slice(0, 120), detail: String(error?.upstream || error?.message || "").slice(0, 400) }, publicStatus);
       }
     }
 
@@ -1081,7 +1103,16 @@ export default {
         return json({ok:true,configured:result.configured,fallback:result.fallback,model:result.model,prompt:result.text});
       } catch(error) {
         const status=Number(error?.status||500); const publicStatus=(status>=400&&status<600)?status:500;
-        return json({error:publicStatus===401||publicStatus===403?"Gemini API key không hợp lệ hoặc không có quyền dùng model hiện tại.":publicStatus===429?"Gemini đang giới hạn quota. Vui lòng thử lại sau.":"Không thể tạo prompt bằng AI.",code:publicStatus===429?"AI_QUOTA":"AI_ERROR",detail:String(error?.message||"Unknown error").slice(0,300)},publicStatus);
+        const modelName=String(error?.model||env.GEMINI_MODEL||"gemini-3.8-flash");
+        let message="Không thể tạo prompt bằng AI."; let code="AI_ERROR";
+        if(publicStatus===400){message="Yêu cầu Gemini không hợp lệ. Hãy kiểm tra model và tham số.";code="AI_BAD_REQUEST";}
+        else if(publicStatus===401){message="Gemini API key không hợp lệ, thiếu hoặc đã hết hạn.";code="AI_AUTHENTICATION";}
+        else if(publicStatus===403){message="Gemini API key không có quyền dùng model này.";code="AI_PERMISSION_DENIED";}
+        else if(publicStatus===404){message=`Không tìm thấy Gemini model: ${modelName}.`;code="AI_MODEL_NOT_FOUND";}
+        else if(publicStatus===429){message="Gemini đang giới hạn rate/quota. Hãy chờ rồi thử lại.";code="AI_QUOTA_OR_RATE_LIMIT";}
+        else if(publicStatus===500){message="Gemini đang gặp lỗi máy chủ.";code="AI_SERVER_ERROR";}
+        else if(publicStatus===503){message="Gemini đang tạm thời quá tải hoặc không khả dụng.";code="AI_SERVICE_UNAVAILABLE";}
+        return json({error:message,code,status:publicStatus,provider:"gemini",model:modelName,detail:String(error?.message||"Unknown error").slice(0,400)},publicStatus);
       }
     }
 
