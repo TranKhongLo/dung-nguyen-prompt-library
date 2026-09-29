@@ -235,6 +235,7 @@ async function getPrompts(env, url, admin = false) {
       p.title,
       p.slug,
       p.description,
+      p.category_id,
       p.content,
       p.tags,
       p.featured,
@@ -365,6 +366,85 @@ async function findPrompt(env, key) {
     `)
     .bind(key)
     .first();
+}
+
+async function getRelatedPrompts(env, prompt, limit = 6) {
+  const safeLimit = Math.min(
+    Math.max(Number(limit) || 6, 1),
+    12
+  );
+
+  if (prompt?.category_id) {
+    const result = await env.DB
+      .prepare(`
+        SELECT
+          p.id,
+          p.title,
+          p.slug,
+          p.description,
+          p.category_id,
+          p.tags,
+          p.featured,
+          p.published,
+          p.views,
+          p.copies,
+          p.created_at,
+          p.updated_at,
+          c.name AS category_name,
+          c.slug AS category_slug
+        FROM prompts p
+        LEFT JOIN categories c
+          ON c.id = p.category_id
+        WHERE p.published = 1
+          AND p.category_id = ?
+          AND p.id != ?
+        ORDER BY
+          p.featured DESC,
+          p.created_at DESC
+        LIMIT ${safeLimit}
+      `)
+      .bind(
+        Number(prompt.category_id),
+        Number(prompt.id)
+      )
+      .all();
+
+    if ((result.results || []).length) {
+      return result.results;
+    }
+  }
+
+  const fallback = await env.DB
+    .prepare(`
+      SELECT
+        p.id,
+        p.title,
+        p.slug,
+        p.description,
+        p.category_id,
+        p.tags,
+        p.featured,
+        p.published,
+        p.views,
+        p.copies,
+        p.created_at,
+        p.updated_at,
+        c.name AS category_name,
+        c.slug AS category_slug
+      FROM prompts p
+      LEFT JOIN categories c
+        ON c.id = p.category_id
+      WHERE p.published = 1
+        AND p.id != ?
+      ORDER BY
+        p.featured DESC,
+        p.created_at DESC
+      LIMIT ${safeLimit}
+    `)
+    .bind(Number(prompt.id))
+    .all();
+
+  return fallback.results || [];
 }
 
 async function renderPromptHtml(env, request, prompt) {
@@ -555,7 +635,7 @@ async function exportBackup(env) {
 
   return {
     backup_format: "shareprompt",
-    backup_version: "1.3.1",
+    backup_version: "1.4-stage3",
     app: "DUNG NGUYEN PROMPTS",
     exported_at: new Date().toISOString(),
     counts: {
@@ -790,7 +870,7 @@ export default {
         ok: true,
         app: "DUNG NGUYEN PROMPTS",
         database: "connected",
-        version: "1.3.1-stage2"
+        version: "1.4-stage3"
       });
     }
 
@@ -815,6 +895,37 @@ export default {
           env,
           url,
           false
+        )
+      });
+    }
+
+    const relatedMatch =
+      path.match(/^\/api\/prompts\/([^/]+)\/related$/);
+
+    if (
+      relatedMatch &&
+      method === "GET"
+    ) {
+      const key = decodeURIComponent(
+        relatedMatch[1]
+      );
+
+      const prompt = await findPrompt(
+        env,
+        key
+      );
+
+      if (!prompt) {
+        return json({
+          error: "Không tìm thấy prompt"
+        }, 404);
+      }
+
+      return json({
+        prompts: await getRelatedPrompts(
+          env,
+          prompt,
+          url.searchParams.get("limit") || 6
         )
       });
     }
@@ -857,8 +968,7 @@ export default {
         .prepare(`
           UPDATE prompts
           SET
-            views = views + 1,
-            updated_at = CURRENT_TIMESTAMP
+            views = views + 1
           WHERE id = ?
              OR slug = ?
         `)
@@ -888,8 +998,7 @@ export default {
         .prepare(`
           UPDATE prompts
           SET
-            copies = copies + 1,
-            updated_at = CURRENT_TIMESTAMP
+            copies = copies + 1
           WHERE id = ?
              OR slug = ?
         `)
@@ -1003,6 +1112,77 @@ export default {
         .prepare(`SELECT COUNT(*) AS total FROM categories`)
         .first();
 
+      const topViews = await env.DB
+        .prepare(`
+          SELECT
+            id,
+            title,
+            slug,
+            views,
+            copies,
+            featured,
+            published
+          FROM prompts
+          ORDER BY
+            views DESC,
+            copies DESC,
+            created_at DESC
+          LIMIT 10
+        `)
+        .all();
+
+      const topCopies = await env.DB
+        .prepare(`
+          SELECT
+            id,
+            title,
+            slug,
+            views,
+            copies,
+            featured,
+            published
+          FROM prompts
+          ORDER BY
+            copies DESC,
+            views DESC,
+            created_at DESC
+          LIMIT 10
+        `)
+        .all();
+
+      const categoryStats =
+        await getCategories(
+          env,
+          true
+        );
+
+      const recent = await env.DB
+        .prepare(`
+          SELECT
+            p.id,
+            p.title,
+            p.slug,
+            p.views,
+            p.copies,
+            p.featured,
+            p.published,
+            p.created_at,
+            c.name AS category_name
+          FROM prompts p
+          LEFT JOIN categories c
+            ON c.id = p.category_id
+          ORDER BY p.created_at DESC
+          LIMIT 8
+        `)
+        .all();
+
+      const latestUpdate = await env.DB
+        .prepare(`
+          SELECT MAX(updated_at) AS latest_update
+          FROM prompts
+        `)
+        .first();
+
       return json({
         stats: {
           total_prompts: Number(result?.total_prompts || 0),
@@ -1010,7 +1190,14 @@ export default {
           featured_prompts: Number(result?.featured_prompts || 0),
           total_views: Number(result?.total_views || 0),
           total_copies: Number(result?.total_copies || 0),
-          total_categories: Number(categories?.total || 0)
+          total_categories: Number(categories?.total || 0),
+          latest_update: latestUpdate?.latest_update || null
+        },
+        analytics: {
+          top_views: topViews.results || [],
+          top_copies: topCopies.results || [],
+          category_stats: categoryStats,
+          recent_prompts: recent.results || []
         }
       });
     }

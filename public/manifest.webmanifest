@@ -1,7 +1,7 @@
 {
   "name": "DUNG NGUYEN PROMPTS",
   "short_name": "SharePrompt",
-  "description": "Thư viện prompt AI của DUNG NGUYEN",
+  "description": "Thư viện prompt AI của DUNG NGUYEN — Favorites, Collections và Prompt Builder",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

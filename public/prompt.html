@@ -4,95 +4,104 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#090b10">
-  <meta name="robots" content="index,follow">
-
-  <title>__PROMPT_TITLE__</title>
   <meta name="description" content="__PROMPT_DESCRIPTION__">
-  <link rel="canonical" href="__PROMPT_CANONICAL__">
-
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="DUNG NGUYEN PROMPTS">
   <meta property="og:title" content="__PROMPT_TITLE__">
   <meta property="og:description" content="__PROMPT_DESCRIPTION__">
-  <meta property="og:url" content="__PROMPT_CANONICAL__">
   <meta property="og:image" content="__PROMPT_OG_IMAGE__">
-  <meta property="og:image:alt" content="__PROMPT_TITLE__">
+  <meta property="og:url" content="__PROMPT_CANONICAL__">
   <meta property="og:locale" content="vi_VN">
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="__PROMPT_TITLE__">
   <meta name="twitter:description" content="__PROMPT_DESCRIPTION__">
   <meta name="twitter:image" content="__PROMPT_OG_IMAGE__">
-
-  <script type="application/ld+json">__PROMPT_JSONLD__</script>
-
+  <link rel="canonical" href="__PROMPT_CANONICAL__">
   <link rel="manifest" href="/manifest.webmanifest">
+  <script type="application/ld+json">__PROMPT_JSONLD__</script>
+  <title>__PROMPT_TITLE__</title>
   <link rel="stylesheet" href="/assets/site.css">
-
-  <style>
-    .detail-page{max-width:1080px;margin:0 auto;padding:28px 16px 80px}.detail-actions{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}.detail-action{min-height:41px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 13px;border:1px solid var(--border);border-radius:11px;background:#111722;color:#edf1f7;font-size:13px;font-weight:750}.detail-action.primary{border-color:transparent;background:linear-gradient(135deg,var(--primary2),var(--primary));color:#090b10}.detail-hero{position:relative;overflow:hidden;padding:34px 30px;border:1px solid var(--border);border-radius:24px;background:radial-gradient(circle at 100% 0,rgba(124,140,255,.16),transparent 34%),var(--panel);box-shadow:0 28px 75px rgba(0,0,0,.2)}.detail-hero h1{position:relative;z-index:1;margin:0;font-size:clamp(31px,6vw,58px);line-height:1.05;letter-spacing:-1px}.detail-hero .desc{position:relative;z-index:1;margin:16px 0 0;color:var(--muted);font-size:16px;line-height:1.65}.detail-badges{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.detail-badge{display:inline-flex;align-items:center;min-height:31px;padding:0 11px;border:1px solid var(--border);border-radius:999px;background:#0d121a;color:#cfd6e3;font-size:12px;font-weight:750}.detail-badge.category{color:#bbc4ff;border-color:rgba(124,140,255,.26);background:rgba(124,140,255,.09)}.detail-badge.featured{color:#f8d98a;border-color:rgba(245,196,94,.24);background:rgba(245,196,94,.08)}.detail-stats{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:17px;margin-top:20px;color:#7e899d;font-size:13px}.detail-content-card{margin-top:18px;overflow:hidden;border:1px solid var(--border);border-radius:21px;background:var(--panel)}.detail-content-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 17px;border-bottom:1px solid var(--border2)}.detail-content-head h2{margin:0;font-size:18px}.content-actions{display:flex;flex-wrap:wrap;gap:7px;justify-content:flex-end}.content-actions .btn{min-height:41px;font-size:12px}.prompt-body{padding:20px}.prompt-body pre{margin:0;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;color:#e7ebf3;font:13px/1.75 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.detail-info{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}.detail-info-card{min-height:102px;padding:17px;border:1px solid var(--border);border-radius:18px;background:var(--panel)}.detail-info-label{color:#7d889b;font-size:10px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}.detail-info-value{margin-top:8px;color:#eef1f7;font-size:14px;font-weight:750}.detail-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.detail-tag{padding:5px 9px;border:1px solid #293244;border-radius:999px;color:#b4becf;background:#0d121a;font-size:11px}.about-card{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:18px;margin-top:22px;padding:23px;border:1px solid var(--border);border-radius:22px;background:radial-gradient(circle at 100% 0,rgba(124,140,255,.12),transparent 35%),var(--panel)}.about-avatar{width:70px;height:70px;display:grid;place-items:center;border-radius:20px;color:#090b10;background:linear-gradient(135deg,var(--primary2),var(--primary));font-size:21px;font-weight:950}.about-title{margin:0;font-size:23px}.about-text{margin:8px 0 0;color:#9ba5b8;font-size:13px;line-height:1.7}.contact{display:inline-flex;margin-top:13px;min-height:38px;align-items:center;padding:0 12px;border:1px solid #2d3850;border-radius:10px;color:#bec8ff;background:#0d121a;font-size:12px;font-weight:800}.detail-state{min-height:410px;display:grid;place-items:center;text-align:center;padding:30px;border:1px solid var(--border);border-radius:22px;background:var(--panel)}.spinner{width:40px;height:40px;margin:0 auto 15px;border:3px solid #293244;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:900px){.detail-info{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){.detail-page{width:min(100% - 20px,700px);padding-top:22px}.detail-actions{align-items:stretch}.detail-actions>div{width:100%;display:flex;gap:7px}.detail-actions>div .detail-action{flex:1}.detail-hero{padding:25px 19px}.detail-content-head{align-items:flex-start;flex-direction:column}.content-actions{width:100%;justify-content:stretch}.content-actions .btn{flex:1}.detail-info{grid-template-columns:1fr}.about-card{grid-template-columns:1fr;text-align:center}.about-avatar{margin:0 auto}.contact{width:100%;justify-content:center}}
-  </style>
 </head>
 <body>
 <header class="topbar">
   <a class="brand" href="/">DUNG NGUYEN <span>PROMPTS</span></a>
   <div class="header-actions">
-    <a class="link-btn" href="/">← Thư viện</a>
     <a class="link-btn" href="/saved.html">☆ Đã lưu</a>
+    <a class="link-btn" href="/">← Thư viện</a>
   </div>
 </header>
 
-<main class="detail-page">
-  <section id="loading" class="detail-state"><div><div class="spinner"></div>Đang tải prompt...</div></section>
-  <section id="error" class="detail-state" style="display:none"><div><h2>Không tìm thấy prompt</h2><p id="errorText" style="color:#929daf">Prompt không tồn tại.</p><a class="detail-action" href="/">← Về thư viện</a></div></section>
-
-  <div id="detail" style="display:none">
-    <div class="detail-actions">
-      <a class="detail-action" href="/">← Quay lại thư viện</a>
-      <div style="display:flex;gap:7px;flex-wrap:wrap">
-        <button id="copyLinkTop" class="detail-action" type="button">📎 Copy link</button>
-        <button id="shareTop" class="detail-action" type="button">↗ Chia sẻ</button>
-      </div>
+<main class="wrap">
+  <div class="toolbar" style="margin-top:24px">
+    <a class="link-btn" href="/">← Quay lại thư viện</a>
+    <div class="actions">
+      <button id="copyLink" class="btn" type="button">📎 Copy link</button>
+      <button id="share" class="btn" type="button">↗ Chia sẻ</button>
     </div>
+  </div>
 
-    <section class="detail-hero">
-      <p class="eyebrow">AI PROMPT</p>
-      <h1 id="title"></h1>
-      <p id="desc" class="desc"></p>
-      <div id="badges" class="detail-badges"></div>
-      <div class="detail-stats">
-        <span id="views">👁 0 lượt xem</span>
-        <span id="copies">⧉ 0 lượt sao chép</span>
-        <span id="created">🗓 —</span>
-      </div>
-    </section>
+  <section id="loading" class="state">
+    <div><div class="spinner"></div>Đang tải prompt...</div>
+  </section>
 
-    <section class="detail-content-card">
-      <div class="detail-content-head">
-        <h2>Nội dung Prompt</h2>
-        <div class="content-actions">
-          <button id="copyContent" class="btn primary" type="button">📋 Sao chép nội dung</button>
-          <button id="copyLink" class="btn" type="button">📎 Copy link</button>
-          <button id="share" class="btn" type="button">↗ Chia sẻ</button>
+  <section id="error" class="state hidden">
+    <div>
+      <h2>Không tìm thấy prompt</h2>
+      <p id="errorText" class="page-sub"></p>
+      <a class="btn" href="/">← Về thư viện</a>
+    </div>
+  </section>
+
+  <div id="detail" class="hidden">
+    <section class="panel" style="padding:0;overflow:hidden">
+      <div style="padding:28px 22px;background:radial-gradient(circle at 100% 0%,rgba(124,140,255,.15),transparent 34%),var(--panel)">
+        <p class="eyebrow">AI PROMPT</p>
+        <h1 id="title" class="page-title"></h1>
+        <p id="description" class="page-sub" style="font-size:16px;max-width:850px"></p>
+        <div id="badges" class="badges"></div>
+        <div class="meta" id="stats"></div>
+        <div class="detail-toolbar">
+          <button id="saveButton" class="detail-save" type="button">☆ Lưu prompt</button>
+          <button id="collectionButton" class="detail-save" type="button">📁 Thêm vào collection</button>
         </div>
       </div>
-      <div class="prompt-body"><pre id="content"></pre></div>
     </section>
 
-    <section class="detail-info">
-      <div class="detail-info-card"><div class="detail-info-label">Danh mục</div><div id="category" class="detail-info-value">—</div></div>
-      <div class="detail-info-card"><div class="detail-info-label">Trạng thái</div><div id="status" class="detail-info-value">—</div></div>
-      <div class="detail-info-card"><div class="detail-info-label">ID Prompt</div><div id="id" class="detail-info-value">—</div></div>
-      <div class="detail-info-card"><div class="detail-info-label">Tags</div><div id="tags" class="detail-tags"></div></div>
+    <section class="panel" style="margin-top:16px">
+      <div class="toolbar" style="margin:0 0 12px">
+        <h2>Nội dung Prompt</h2>
+        <div class="actions">
+          <button id="copyContent" class="btn primary" type="button">📋 Sao chép nội dung</button>
+          <button id="copyLink2" class="btn" type="button">📎 Copy link</button>
+        </div>
+      </div>
+      <pre id="content" style="white-space:pre-wrap;word-break:break-word;color:#e8ebf3;font:13px/1.8 ui-monospace,SFMono-Regular,Menlo,monospace;margin:0"></pre>
+    </section>
+
+    <section class="info-grid" style="margin-top:16px">
+      <div class="panel"><div class="muted-count">DANH MỤC</div><div id="category" style="margin-top:7px;font-weight:800">—</div></div>
+      <div class="panel"><div class="muted-count">TRẠNG THÁI</div><div id="status" style="margin-top:7px;font-weight:800">—</div></div>
+      <div class="panel"><div class="muted-count">ID PROMPT</div><div id="id" style="margin-top:7px;font-weight:800">—</div></div>
+      <div class="panel"><div class="muted-count">TAGS</div><div id="tags" class="tags"></div></div>
+    </section>
+
+    <section id="relatedSection" class="related-section hidden">
+      <div class="related-head">
+        <div>
+          <h2>Prompt liên quan</h2>
+          <p class="toolbar-sub">Những prompt cùng chủ đề hoặc gần nhất với nội dung bạn đang xem.</p>
+        </div>
+      </div>
+      <div id="relatedGrid" class="related-grid"></div>
     </section>
 
     <section class="about-card">
       <div class="about-avatar">DN</div>
       <div>
-        <p class="eyebrow" style="margin-bottom:6px">NGƯỜI XÂY DỰNG THƯ VIỆN</p>
+        <p class="about-eyebrow">NGƯỜI XÂY DỰNG THƯ VIỆN</p>
         <h2 class="about-title">DUNG NGUYEN</h2>
-        <p class="about-text">DUNG NGUYEN PROMPTS được xây dựng để lưu trữ, quản lý và chia sẻ các prompt AI một cách trực quan, nhanh chóng và thuận tiện trên máy tính và điện thoại.</p>
-        <a class="contact" href="https://www.facebook.com/dungnguyenvl" target="_blank" rel="noopener noreferrer">↗ Facebook · @dungnguyenvl</a>
+        <p class="about-text">DUNG NGUYEN PROMPTS được xây dựng để lưu trữ, quản lý và chia sẻ các prompt AI một cách trực quan, nhanh chóng và thuận tiện cho người dùng trên máy tính và điện thoại.</p>
+        <a class="facebook-link" href="https://www.facebook.com/dungnguyenvl" target="_blank" rel="noopener noreferrer">↗ Facebook · @dungnguyenvl</a>
       </div>
     </section>
 
@@ -102,25 +111,45 @@
   </div>
 </main>
 
+<dialog id="collectionModal" class="modal">
+  <div class="modal-head"><strong>Thêm vào Collection</strong><button class="btn" type="button" data-close>×</button></div>
+  <div class="modal-body">
+    <div class="toolbar2"><div class="page-sub">Chọn một hoặc nhiều collection trên thiết bị này.</div><button id="newCollection" class="btn primary" type="button">＋ Tạo collection</button></div>
+    <div id="collectionList" class="collection-list"></div>
+  </div>
+  <div class="modal-foot"><button class="btn" type="button" data-close>Đóng</button><button id="saveCollections" class="btn primary" type="button">💾 Lưu lựa chọn</button></div>
+</dialog>
+
+<dialog id="newCollectionModal" class="modal">
+  <div class="modal-head"><strong>Tạo Collection</strong><button class="btn" type="button" data-close>×</button></div>
+  <div class="modal-body"><div class="field"><label>Tên Collection</label><input id="newCollectionName" placeholder="Ví dụ: Prompt Video AI"></div></div>
+  <div class="modal-foot"><button class="btn" type="button" data-close>Hủy</button><button id="createCollection" class="btn primary" type="button">Tạo</button></div>
+</dialog>
+
 <div id="toast" class="toast"></div>
 <script src="/assets/site.js"></script>
 <script>
-const q=new URLSearchParams(location.search);
-const templateSlug="__PROMPT_SLUG__";
-const pathMatch=location.pathname.match(/^\/prompt\/([^/]+)\/?$/);
-const key=templateSlug&&templateSlug!=="__PROMPT_SLUG__"?templateSlug:(q.get("id")||q.get("slug")||(pathMatch?decodeURIComponent(pathMatch[1]):""));
-let prompt=null;
 const $=s=>document.querySelector(s);
-const num=v=>Number(v||0).toLocaleString("vi-VN");
-const date=v=>{if(!v)return"—";const d=new Date(String(v).replace(" ","T"));return Number.isNaN(d.getTime())?v:d.toLocaleDateString("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric"})};
-function toast(msg,type="success"){const t=$("#toast");t.textContent=msg;t.className=`toast show ${type}`;clearTimeout(toast.t);toast.t=setTimeout(()=>t.className="toast",2200)}
+const params=new URLSearchParams(location.search);
+const slugTemplate="__PROMPT_SLUG__";
+const pathMatch=location.pathname.match(/^\/prompt\/([^/]+)\/?$/);
+const key=(slugTemplate&&slugTemplate!=="__PROMPT_SLUG__")?slugTemplate:(params.get("slug")||params.get("id")||(pathMatch?decodeURIComponent(pathMatch[1]):""));
+let promptData=null;
+function fmt(v){return Number(v||0).toLocaleString("vi-VN")}
+function toast(msg,type="success"){const t=$("#toast");t.textContent=msg;t.className=`toast show ${type}`;clearTimeout(toast.t);toast.t=setTimeout(()=>t.className="toast",2300)}
 async function copyText(text){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text);const a=document.createElement("textarea");a.value=text;a.style.position="fixed";a.style.left="-9999px";document.body.appendChild(a);a.select();document.execCommand("copy");a.remove()}
+function render(){document.title=`${promptData.title} · DUNG NGUYEN PROMPTS`;$("#title").textContent=promptData.title||"";$("#description").textContent=promptData.description||"";$("#content").textContent=promptData.content||"";$("#category").textContent=promptData.category_name||"Chưa phân loại";$("#status").textContent=Number(promptData.published)===1?"🟢 Đang xuất bản":"🟡 Nháp";$("#id").textContent=`#${promptData.id}`;$("#stats").innerHTML=`<span>👁 ${fmt(promptData.views)} lượt xem</span><span>⧉ ${fmt(promptData.copies)} lượt sao chép</span><span>🗓 ${String(promptData.created_at||"").slice(0,10)}</span>`;const badges=$("#badges");badges.innerHTML="";if(promptData.category_name){const b=document.createElement("span");b.className="badge category";b.textContent=`📁 ${promptData.category_name}`;badges.appendChild(b)}if(Number(promptData.featured)===1){const b=document.createElement("span");b.className="badge featured";b.textContent="⭐ Featured";badges.appendChild(b)}if(Number(promptData.published)===1){const b=document.createElement("span");b.className="badge";b.textContent="● Published";badges.appendChild(b)}$("#tags").innerHTML=String(promptData.tags||"").split(",").map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tag">${x.replaceAll("<","&lt;").replaceAll(">","&gt;")}</span>`).join("")||"<span class=muted-count>Không có tags</span>";updateSaveButton()}
+function updateSaveButton(){const saved=window.SharePromptStore.isFavorite(promptData.id);$("#saveButton").classList.toggle("saved",saved);$("#saveButton").textContent=saved?"★ Đã lưu":"☆ Lưu prompt"}
 async function copyLink(){try{await copyText(location.href);toast("Đã sao chép link prompt.")}catch{toast("Không thể sao chép link.","error")}}
-async function share(){try{if(navigator.share){await navigator.share({title:prompt?.title||"DUNG NGUYEN PROMPTS",text:prompt?.description||"",url:location.href});return}await copyLink()}catch(e){if(e?.name!=="AbortError")toast("Không thể chia sẻ.","error")}}
-async function copyContent(){if(!prompt)return;try{await copyText(prompt.content||"");await fetch(`/api/prompts/${encodeURIComponent(prompt.id)}/copy`,{method:"POST"});prompt.copies=Number(prompt.copies||0)+1;$("#copies").textContent=`⧉ ${num(prompt.copies)} lượt sao chép`;toast("Đã sao chép toàn bộ prompt.")}catch{toast("Không thể sao chép prompt.","error")}}
-function render(){document.title=`${prompt.title} · DUNG NGUYEN PROMPTS`;$("#title").textContent=prompt.title||"";$("#desc").textContent=prompt.description||"";$("#content").textContent=prompt.content||"";$("#views").textContent=`👁 ${num(prompt.views)} lượt xem`;$("#copies").textContent=`⧉ ${num(prompt.copies)} lượt sao chép`;$("#created").textContent=`🗓 ${date(prompt.created_at)}`;$("#category").textContent=prompt.category_name||"Chưa phân loại";$("#status").textContent=Number(prompt.published)===1?"🟢 Đang xuất bản":"🟡 Nháp";$("#id").textContent=`#${prompt.id}`;$("#badges").innerHTML=`${prompt.category_name?`<span class="detail-badge category">📁 ${prompt.category_name}</span>`:""}${Number(prompt.featured)===1?'<span class="detail-badge featured">⭐ Featured</span>':''}${Number(prompt.published)===1?'<span class="detail-badge">● Published</span>':''}`;const tags=$("#tags");tags.innerHTML="";String(prompt.tags||"").split(",").map(s=>s.trim()).filter(Boolean).forEach(t=>{const x=document.createElement("span");x.className="detail-tag";x.textContent=t;tags.appendChild(x)})}
-async function load(){if(!key){$("#loading").style.display="none";$("#error").style.display="grid";$("#errorText").textContent="Link prompt không hợp lệ.";return}try{const r=await fetch(`/api/prompts/${encodeURIComponent(key)}`,{cache:"no-store"});const d=await r.json();if(!r.ok||!d.prompt)throw new Error(d.error||"Không tìm thấy prompt.");prompt=d.prompt;render();$("#loading").style.display="none";$("#detail").style.display="block";try{await fetch(`/api/prompts/${encodeURIComponent(prompt.id)}/view`,{method:"POST"});prompt.views=Number(prompt.views||0)+1;$("#views").textContent=`👁 ${num(prompt.views)} lượt xem`}catch{}}catch(e){$("#loading").style.display="none";$("#error").style.display="grid";$("#errorText").textContent=e.message||"Không thể tải prompt."}}
-$("#copyLinkTop").addEventListener("click",copyLink);$("#copyLink").addEventListener("click",copyLink);$("#shareTop").addEventListener("click",share);$("#share").addEventListener("click",share);$("#copyContent").addEventListener("click",copyContent);load();
+async function copyContent(){try{await copyText(promptData.content||"");try{await fetch(`/api/prompts/${encodeURIComponent(promptData.id)}/copy`,{method:"POST"})}catch{}promptData.copies=Number(promptData.copies||0)+1;$("#stats").innerHTML=`<span>👁 ${fmt(promptData.views)} lượt xem</span><span>⧉ ${fmt(promptData.copies)} lượt sao chép</span><span>🗓 ${String(promptData.created_at||"").slice(0,10)}</span>`;toast("Đã sao chép toàn bộ prompt.")}catch{toast("Không thể sao chép prompt.","error")}}
+async function share(){try{if(navigator.share){await navigator.share({title:promptData.title,text:promptData.description||"DUNG NGUYEN PROMPTS",url:location.href});return}await copyLink()}catch(e){if(e?.name!=="AbortError")toast("Không thể chia sẻ prompt.","error")}}
+function openCollections(){renderCollectionChoices();$("#collectionModal").showModal()}
+function renderCollectionChoices(){const list=$("#collectionList");const collections=window.SharePromptStore.getCollections();if(!collections.length){list.innerHTML='<div class="collection-empty">Bạn chưa có collection nào. Hãy bấm “Tạo collection”.</div>';return}const ids=new Set(window.SharePromptStore.collectionIdsForPrompt(promptData.id));list.innerHTML=collections.map(c=>`<div class="collection-item"><label><input type="checkbox" data-col-id="${c.id}" ${ids.has(c.id)?"checked":""}> ${String(c.name).replaceAll("<","&lt;").replaceAll(">","&gt;")}</label><span class="muted-count">${c.promptIds.length} prompt</span></div>`).join("")}
+$("#copyLink").addEventListener("click",copyLink);$("#copyLink2").addEventListener("click",copyLink);$("#share").addEventListener("click",share);$("#copyContent").addEventListener("click",copyContent);$("#saveButton").addEventListener("click",()=>{const added=window.SharePromptStore.toggleFavorite(promptData.id);updateSaveButton();toast(added?"Đã lưu prompt trên thiết bị.":"Đã bỏ lưu prompt.")});$("#collectionButton").addEventListener("click",openCollections);document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>b.closest("dialog").close()));$("#newCollection").addEventListener("click",()=>{$("#newCollectionName").value="";$("#newCollectionModal").showModal()});$("#createCollection").addEventListener("click",()=>{try{const c=window.SharePromptStore.createCollection($("#newCollectionName").value);window.SharePromptStore.setPromptInCollection(c.id,promptData.id,true);$("#newCollectionModal").close();renderCollectionChoices();toast("Đã tạo collection và thêm prompt.")}catch(e){toast(e.message,"error")}});$("#saveCollections").addEventListener("click",()=>{document.querySelectorAll("[data-col-id]").forEach(ch=>window.SharePromptStore.setPromptInCollection(ch.dataset.colId,promptData.id,ch.checked));$("#collectionModal").close();toast("Đã cập nhật collection.")});
+async function loadRelated(){try{const r=await fetch(`/api/prompts/${encodeURIComponent(promptData.id)}/related?limit=6`,{cache:"no-store"});if(!r.ok)return;const d=await r.json();const list=d.prompts||[];if(!list.length)return;$("#relatedSection").classList.remove("hidden");$("#relatedGrid").innerHTML=list.map(p=>{const saved=window.SharePromptStore.isFavorite(p.id);return `<article class="related-card"><div><span class="badge">${String(p.category_name||"PROMPT").replaceAll("<","&lt;").replaceAll(">","&gt;")}</span><h3>${String(p.title||"").replaceAll("<","&lt;").replaceAll(">","&gt;")}</h3><p>${String(p.description||"").replaceAll("<","&lt;").replaceAll(">","&gt;")}</p></div><div class="related-actions"><a class="mini-btn primary" href="/prompt/${encodeURIComponent(p.slug)}">Xem</a><button class="mini-btn ${saved?"saved":""}" data-rel-fav="${p.id}">${saved?"★ Đã lưu":"☆ Lưu"}</button><button class="mini-btn" data-rel-copy="${String(p.slug).replaceAll('"','&quot;')}">📎 Link</button></div></article>`}).join("")}catch{}}
+$("#relatedGrid").addEventListener("click",async e=>{const f=e.target.closest("[data-rel-fav]");if(f){const added=window.SharePromptStore.toggleFavorite(f.dataset.relFav);f.textContent=added?"★ Đã lưu":"☆ Lưu";f.classList.toggle("saved",added);return}const c=e.target.closest("[data-rel-copy]");if(c){await copyText(new URL(`/prompt/${encodeURIComponent(c.dataset.relCopy)}`,location.origin).href);toast("Đã sao chép link prompt.")}});
+async function load(){if(!key){$("#loading").classList.add("hidden");$("#error").classList.remove("hidden");$("#errorText").textContent="Link prompt không hợp lệ.";return}try{const r=await fetch(`/api/prompts/${encodeURIComponent(key)}`,{cache:"no-store"});const d=await r.json();if(!r.ok||!d.prompt)throw new Error(d.error||"Không tìm thấy prompt.");promptData=d.prompt;render();$("#loading").classList.add("hidden");$("#detail").classList.remove("hidden");try{await fetch(`/api/prompts/${encodeURIComponent(promptData.id)}/view`,{method:"POST"});promptData.views=Number(promptData.views||0)+1;$("#stats").innerHTML=`<span>👁 ${fmt(promptData.views)} lượt xem</span><span>⧉ ${fmt(promptData.copies)} lượt sao chép</span><span>🗓 ${String(promptData.created_at||"").slice(0,10)}</span>`}catch{}loadRelated()}catch(e){$("#loading").classList.add("hidden");$("#error").classList.remove("hidden");$("#errorText").textContent=e.message||"Không thể tải prompt."}}
+load();
 </script>
 </body>
 </html>

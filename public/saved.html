@@ -1,8 +1,83 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#090b10"><title>Đã lưu · DUNG NGUYEN PROMPTS</title><link rel="stylesheet" href="/assets/site.css"></head><body>
-<header class="topbar"><a class="brand" href="/">DUNG NGUYEN <span>PROMPTS</span></a><div class="header-actions"><a class="link-btn" href="/">← Thư viện</a><a class="link-btn" href="/builder.html">✨ Builder</a></div></header>
-<main class="wrap"><section class="hero" style="padding-top:30px"><p class="eyebrow">PERSONAL SPACE</p><h1>Prompt <span>Đã lưu</span></h1><p>Danh sách yêu thích và collections được lưu trực tiếp trên thiết bị này.</p></section>
-<section class="toolbar"><h2>Yêu thích</h2><span id="count" class="muted-count">0 prompt</span></section><div id="grid" class="grid"></div>
-<footer class="footer"><div class="copyright"><strong>DUNG NGUYEN PROMPTS</strong><br>© 2026 DUNG NGUYEN PROMPTS. Bản quyền ứng dụng, giao diện và hệ thống thuộc về chủ sở hữu ứng dụng.</div></footer></main><div id="toast" class="toast"></div>
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090b10">
+  <title>Đã lưu · DUNG NGUYEN PROMPTS</title>
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">DUNG NGUYEN <span>PROMPTS</span></a>
+  <div class="header-actions"><a class="link-btn" href="/">← Thư viện</a><a class="link-btn" href="/builder.html">✨ Builder</a></div>
+</header>
+
+<main class="wrap">
+  <section class="hero" style="padding-top:30px">
+    <p class="eyebrow">PERSONAL SPACE</p>
+    <h1>Prompt <span>Đã lưu</span></h1>
+    <p>Yêu thích và Collections được lưu trực tiếp trên thiết bị này, không cần tài khoản.</p>
+  </section>
+
+  <section class="toolbar">
+    <div>
+      <h2 id="sectionTitle">Tất cả prompt đã lưu</h2>
+      <p id="sectionSub" class="toolbar-sub">Bạn có thể gom một prompt vào nhiều collections.</p>
+    </div>
+    <div class="actions"><button id="newCollection" class="btn primary" type="button">＋ Tạo Collection</button><button id="manageCollections" class="btn" type="button">⚙ Quản lý</button></div>
+  </section>
+
+  <div id="collectionBar" class="collection-bar"></div>
+
+  <section style="margin-top:16px">
+    <div id="grid" class="grid"></div>
+  </section>
+
+  <footer class="footer">
+    <div class="copyright"><strong>DUNG NGUYEN PROMPTS</strong><br>© 2026 DUNG NGUYEN PROMPTS. Bản quyền ứng dụng, giao diện và hệ thống thuộc về chủ sở hữu ứng dụng.<br><a class="footer-link" href="https://www.facebook.com/dungnguyenvl" target="_blank" rel="noopener noreferrer">↗ Facebook · @dungnguyenvl</a></div>
+  </footer>
+</main>
+
+<dialog id="collectionPicker" class="modal">
+  <div class="modal-head"><strong>Thêm vào Collection</strong><button class="btn" type="button" data-close>×</button></div>
+  <div class="modal-body"><div id="pickerList" class="collection-list"></div><button id="pickerNew" class="btn" type="button" style="margin-top:12px">＋ Tạo Collection mới</button></div>
+  <div class="modal-foot"><button class="btn" type="button" data-close>Hủy</button><button id="pickerSave" class="btn primary" type="button">💾 Lưu lựa chọn</button></div>
+</dialog>
+
+<dialog id="collectionForm" class="modal">
+  <div class="modal-head"><strong id="collectionFormTitle">Tạo Collection</strong><button class="btn" type="button" data-close>×</button></div>
+  <div class="modal-body"><div class="field"><label>Tên Collection</label><input id="collectionName" placeholder="Ví dụ: Prompt Video AI"></div></div>
+  <div class="modal-foot"><button class="btn" type="button" data-close>Hủy</button><button id="collectionFormSave" class="btn primary" type="button">💾 Lưu</button></div>
+</dialog>
+
+<dialog id="manageModal" class="modal">
+  <div class="modal-head"><strong>Quản lý Collections</strong><button class="btn" type="button" data-close>×</button></div>
+  <div class="modal-body"><div id="manageList" class="collection-list"></div></div>
+  <div class="modal-foot"><button class="btn" type="button" data-close>Đóng</button></div>
+</dialog>
+
+<div id="toast" class="toast"></div>
+<script src="/assets/site.js"></script>
 <script>
-const favKey="shareprompt_favorites";const $=s=>document.querySelector(s);const fmt=v=>Number(v||0).toLocaleString("vi-VN");const esc=v=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");function get(){try{return JSON.parse(localStorage.getItem(favKey)||"[]")}catch{return[]}}function set(v){localStorage.setItem(favKey,JSON.stringify(v))}function toast(m){const t=$("#toast");t.textContent=m;t.className="toast show";clearTimeout(toast.t);toast.t=setTimeout(()=>t.className="toast",2200)}async function load(){const ids=get().map(Number);if(!ids.length){$("#count").textContent="0 prompt";$("#grid").innerHTML='<div class="empty" style="grid-column:1/-1">Chưa có prompt nào được lưu trên thiết bị này.</div>';return}try{const r=await fetch("/api/prompts?limit=500",{cache:"no-store"});const d=await r.json();const list=(d.prompts||[]).filter(p=>ids.includes(Number(p.id)));$("#count").textContent=`${list.length} prompt`;$("#grid").innerHTML=list.length?list.map(p=>`<article class="card"><div><span class="badge">${esc(p.category_name||"PROMPT")}</span><h3>${esc(p.title)}</h3><p>${esc(p.description||"")}</p></div><div><div class="meta"><span>👁 ${fmt(p.views)}</span><span>⧉ ${fmt(p.copies)}</span></div><div class="actions"><a class="btn primary" href="/prompt/${encodeURIComponent(p.slug)}">Xem nội dung</a><button class="btn saved" data-remove="${p.id}">★ Bỏ lưu</button></div></div></article>`).join(""):'<div class="empty" style="grid-column:1/-1">Một số prompt đã bị gỡ khỏi thư viện.</div>'}catch{$("#grid").innerHTML='<div class="empty" style="grid-column:1/-1">Không thể tải prompt.</div>'}}$("#grid").addEventListener("click",e=>{const b=e.target.closest("[data-remove]");if(!b)return;const v=get().filter(id=>Number(id)!==Number(b.dataset.remove));set(v);toast("Đã bỏ lưu prompt.");load()});load();
-</script></body></html>
+const $=s=>document.querySelector(s),fmt=v=>Number(v||0).toLocaleString("vi-VN"),esc=v=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+let prompts=[],activeCollection="",pickerPromptId=null,editingCollection=null;
+function toast(m,t="success"){const e=$("#toast");e.textContent=m;e.className=`toast show ${t}`;clearTimeout(toast.t);toast.t=setTimeout(()=>e.className="toast",2300)}
+function renderCollections(){const c=window.SharePromptStore.getCollections();const bar=$("#collectionBar");bar.innerHTML=`<button class="collection-pill ${activeCollection===""?"active":""}" data-col="">⭐ Tất cả (${window.SharePromptStore.getFavorites().length})</button>`+c.map(x=>`<button class="collection-pill ${activeCollection===x.id?"active":""}" data-col="${x.id}">${esc(x.name)} (${x.promptIds.length})</button>`).join("")}
+function render(){const ids=new Set(window.SharePromptStore.getFavorites());let view=prompts.filter(p=>ids.has(Number(p.id)));if(activeCollection){const c=window.SharePromptStore.getCollections().find(x=>x.id===activeCollection);view=c?view.filter(p=>c.promptIds.includes(Number(p.id))):[]}const name=activeCollection?(window.SharePromptStore.getCollections().find(x=>x.id===activeCollection)?.name||"Collection"):"Tất cả prompt đã lưu";$("#sectionTitle").textContent=name;$("#sectionSub").textContent=`${fmt(view.length)} prompt trong không gian cá nhân trên thiết bị này.`;$("#grid").innerHTML=view.length?view.map(p=>`<article class="card"><div><span class="badge">${esc(p.category_name||"PROMPT")}</span><h3>${esc(p.title)}</h3><p>${esc(p.description||"")}</p></div><div><div class="meta"><span>👁 ${fmt(p.views)}</span><span>⧉ ${fmt(p.copies)}</span></div><div class="actions"><a class="btn primary" href="/prompt/${encodeURIComponent(p.slug)}">Xem nội dung</a><button class="btn" data-collection="${p.id}">📁 Collection</button><button class="btn saved" data-remove="${p.id}">★ Bỏ lưu</button></div></div></article>`).join(""):'<div class="empty" style="grid-column:1/-1">Chưa có prompt phù hợp trong khu vực này.</div>'}
+function openCollectionForm(item=null){editingCollection=item;$("#collectionFormTitle").textContent=item?"Đổi tên Collection":"Tạo Collection";$("#collectionName").value=item?.name||"";$("#collectionForm").showModal()}
+function renderPicker(){const list=$("#pickerList"),cs=window.SharePromptStore.getCollections(),ids=new Set(window.SharePromptStore.collectionIdsForPrompt(pickerPromptId));list.innerHTML=cs.length?cs.map(c=>`<div class="collection-item"><label><input type="checkbox" data-picker-id="${c.id}" ${ids.has(c.id)?"checked":""}> ${esc(c.name)}</label><span class="muted-count">${c.promptIds.length}</span></div>`).join(""):'<div class="collection-empty">Chưa có collection. Hãy tạo collection mới.</div>'}
+function openPicker(id){pickerPromptId=Number(id);renderPicker();$("#collectionPicker").showModal()}
+function renderManage(){const list=$("#manageList"),cs=window.SharePromptStore.getCollections();list.innerHTML=cs.length?cs.map(c=>`<div class="collection-item"><div><strong>${esc(c.name)}</strong><div class="row-meta">${c.promptIds.length} prompt</div></div><div class="row-actions"><button class="btn" data-rename="${c.id}">✏️</button><button class="btn danger" data-delete="${c.id}">🗑</button></div></div>`).join(""):'<div class="collection-empty">Chưa có collection nào.</div>'}
+async function load(){try{const r=await fetch("/api/prompts?limit=500",{cache:"no-store"});const d=await r.json();if(!r.ok)throw new Error(d.error||"Không thể tải prompt.");prompts=d.prompts||[];renderCollections();render()}catch(e){$("#grid").innerHTML=`<div class="empty" style="grid-column:1/-1">${esc(e.message)}</div>`}}
+$("#collectionBar").addEventListener("click",e=>{const b=e.target.closest("[data-col]");if(!b)return;activeCollection=b.dataset.col;renderCollections();render()});
+$("#grid").addEventListener("click",e=>{const rem=e.target.closest("[data-remove]");if(rem){window.SharePromptStore.toggleFavorite(rem.dataset.remove);renderCollections();render();toast("Đã bỏ lưu prompt.");return}const cb=e.target.closest("[data-collection]");if(cb)openPicker(cb.dataset.collection)});
+$("#newCollection").addEventListener("click",()=>openCollectionForm());$("#manageCollections").addEventListener("click",()=>{renderManage();$("#manageModal").showModal()});$("#pickerNew").addEventListener("click",()=>openCollectionForm());
+$("#collectionFormSave").addEventListener("click",()=>{try{if(editingCollection)window.SharePromptStore.renameCollection(editingCollection.id,$("#collectionName").value);else window.SharePromptStore.createCollection($("#collectionName").value);$("#collectionForm").close();renderCollections();render();if(pickerPromptId){renderPicker();$("#collectionPicker").showModal()}toast("Đã lưu collection.")}catch(e){toast(e.message,"error")}});
+$("#pickerSave").addEventListener("click",()=>{document.querySelectorAll("[data-picker-id]").forEach(ch=>window.SharePromptStore.setPromptInCollection(ch.dataset.pickerId,pickerPromptId,ch.checked));$("#collectionPicker").close();renderCollections();render();toast("Đã cập nhật collection.")});
+$("#manageList").addEventListener("click",e=>{const ren=e.target.closest("[data-rename]"),del=e.target.closest("[data-delete]");if(ren){const c=window.SharePromptStore.getCollections().find(x=>x.id===ren.dataset.rename);if(c){$("#manageModal").close();openCollectionForm(c)}}else if(del){const c=window.SharePromptStore.getCollections().find(x=>x.id===del.dataset.delete);if(!c||!confirm(`Xóa collection “${c.name}”? Prompt sẽ không bị xóa.`))return;window.SharePromptStore.deleteCollection(c.id);if(activeCollection===c.id)activeCollection="";renderCollections();render();renderManage();toast("Đã xóa collection.")}});
+document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>b.closest("dialog").close()));
+load();
+</script>
+</body>
+</html>

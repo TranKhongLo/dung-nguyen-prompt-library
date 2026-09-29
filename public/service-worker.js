@@ -1,4 +1,4 @@
-const CACHE = "shareprompt-v1-3-1-stage2";
+const CACHE = "shareprompt-v1-4-stage3";
 const SHELL = [
   "/",
   "/builder.html",
@@ -36,7 +36,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Never cache dynamic/admin/API/SEO prompt pages.
+  // Never cache dynamic routes or admin/auth pages.
   if (
     url.pathname.startsWith("/api/") ||
     url.pathname.startsWith("/prompt/") ||
@@ -50,6 +50,10 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     fetch(request)
       .then((response) => {
+        if (!response || response.status >= 400) {
+          return response;
+        }
+
         const clone = response.clone();
         caches.open(CACHE).then((cache) => cache.put(request, clone));
         return response;
